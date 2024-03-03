@@ -1,9 +1,8 @@
 using System;
-using SplineRoad.BezierTrack.ScriptableObjects.Definitions;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace SplineRoad.BezierTrack
+namespace ptl.bezier
 {
     public class TrackProperties : MonoBehaviour
     {

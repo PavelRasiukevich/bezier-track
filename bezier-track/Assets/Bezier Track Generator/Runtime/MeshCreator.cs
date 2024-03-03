@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SplineRoad.BezierTrack
+namespace ptl.bezier
 {
     public class MeshCreator : MonoBehaviour
     {

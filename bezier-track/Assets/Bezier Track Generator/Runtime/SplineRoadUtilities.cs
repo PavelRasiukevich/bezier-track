@@ -2,7 +2,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace SplineRoad.BezierTrack
+namespace ptl.bezier
 {
     public static class SplineRoadUtilities
     {

@@ -1,6 +1,6 @@
 {
     "name": "ptl.bezier-track.editor",
-    "rootNamespace": "ptl.bezier-track.editor",
+    "rootNamespace": "ptl.bezier.editor",
     "references": [],
     "includePlatforms": [
         "Editor"

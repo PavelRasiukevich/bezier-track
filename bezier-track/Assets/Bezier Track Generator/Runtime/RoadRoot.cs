@@ -1,10 +1,9 @@
 using System.Linq;
-using UnityEditor;
 using UnityEditor.Splines;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace SplineRoad.BezierTrack
+namespace ptl.bezier
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(TrackProperties))]

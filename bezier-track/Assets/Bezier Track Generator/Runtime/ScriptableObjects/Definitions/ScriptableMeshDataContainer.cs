@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SplineRoad.BezierTrack.ScriptableObjects.Definitions
+namespace ptl.bezier
 {
     [CreateAssetMenu]
     public class ScriptableMeshDataContainer : ScriptableObject

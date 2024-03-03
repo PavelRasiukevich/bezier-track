@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
-namespace SplineRoad.BezierTrack
+namespace ptl.bezier
 {
     public class SplineVisualiser : MonoBehaviour
     {

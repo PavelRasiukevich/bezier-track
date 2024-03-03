@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SplineRoad.BezierTrack.ScriptableObjects.Definitions
+namespace ptl.bezier
 {
     [CreateAssetMenu(menuName = "Create Shape Data Asset", fileName = "Shape Data")]
     public class ScriptableShapeData : ScriptableObject

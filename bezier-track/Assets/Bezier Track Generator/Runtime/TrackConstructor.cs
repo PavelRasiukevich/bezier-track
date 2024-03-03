@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SplineRoad.BezierTrack
+namespace ptl.bezier
 {
     [Serializable]
     public class TrackConstructor
