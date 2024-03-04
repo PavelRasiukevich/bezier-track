@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Mesh Data Container
   m_EditorClassIdentifier: 
   _shapeData: {fileID: 11400000, guid: 0ae79f9db67664681a455a1b70b8619b, type: 2}
-  _material: {fileID: 2100000, guid: eba35a10e9231468082935898738dabb, type: 2}
+  _material: {fileID: 2100000, guid: bf4b5090ea0cd4355a826f4bb37c556d, type: 2}

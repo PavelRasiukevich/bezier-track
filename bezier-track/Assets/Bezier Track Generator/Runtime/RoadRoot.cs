@@ -5,7 +5,7 @@ using UnityEngine.Splines;
 
 namespace ptl.bezier
 {
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     [RequireComponent(typeof(TrackProperties))]
     [RequireComponent(typeof(MeshCreator))]
     public class RoadRoot : MonoBehaviour
@@ -20,13 +20,13 @@ namespace ptl.bezier
             Create();
         }
 
-        private void OnValidate()
-        {
-            _trackProperties = GetComponent<TrackProperties>();
-            _trackProperties.ValueChanged += OnValidateHandler;
-            
-            EditorSplineUtility.AfterSplineWasModified += AfterSplineWasModifiedHandler;
-        }
+        // private void OnValidate()
+        // {
+        //     _trackProperties = GetComponent<TrackProperties>();
+        //     _trackProperties.ValueChanged += OnValidateHandler;
+        //     
+        //     EditorSplineUtility.AfterSplineWasModified += AfterSplineWasModifiedHandler;
+        // }
         
         private void AfterSplineWasModifiedHandler(Spline arg1)
         {
@@ -77,11 +77,11 @@ namespace ptl.bezier
             _meshCreator.DeleteCompletely();
         }
 
-        private void OnDestroy()
-        {
-            Debug.Log("Destroyed");
-            EditorSplineUtility.AfterSplineWasModified -= AfterSplineWasModifiedHandler;
-            Delete();
-        }
+        // private void OnDestroy()
+        // {
+        //     Debug.Log("Destroyed");
+        //     EditorSplineUtility.AfterSplineWasModified -= AfterSplineWasModifiedHandler;
+        //     Delete();
+        // }
     }
 }

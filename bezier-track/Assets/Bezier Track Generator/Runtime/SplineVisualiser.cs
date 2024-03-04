@@ -97,13 +97,12 @@ namespace ptl.bezier
 
                 for (int j = 0; j < _properties.MeshDataContainer.VertexCount; j++)
                 {
-                    var orientedPoint = SplineRoadUtilities.GetOrientedPoint(
+                    var orientedPoint = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
                         _properties.MeshDataContainer.Vertices[j].point);
 
                     Gizmos.DrawSphere(orientedPoint, _vertexVisualPointRadius);
-                    //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = orientedPoint;
                 }
             }
         }
@@ -117,14 +116,14 @@ namespace ptl.bezier
 
                 for (int j = 0; j < _properties.MeshDataContainer.VertexCount; j += 2)
                 {
-                    var current = SplineRoadUtilities.GetOrientedPoint(
+                    var current = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
                         _properties.MeshDataContainer.Vertices[j + 1].point,
                         _properties.RoadWidth);
 
 
-                    var next = SplineRoadUtilities.GetOrientedPoint(
+                    var next = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
                         _properties.MeshDataContainer.Vertices[(j + 2) % _properties.MeshDataContainer.Vertices.Count].point,
@@ -145,13 +144,13 @@ namespace ptl.bezier
 
                 for (int j = 0; j < _properties.MeshDataContainer.VertexCount; j += 2)
                 {
-                    var current = SplineRoadUtilities.GetOrientedPoint(
+                    var current = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
                         _properties.MeshDataContainer.Vertices[_properties.MeshDataContainer.Lines[j]].point);
 
 
-                    var next = SplineRoadUtilities.GetOrientedPoint(
+                    var next = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
                         _properties.MeshDataContainer.Vertices[(_properties.MeshDataContainer.Lines[j + 1]) % _properties.MeshDataContainer.Vertices.Count].point);
@@ -172,7 +171,7 @@ namespace ptl.bezier
                 
                 for (int j = 0; j < _properties.MeshDataContainer.VertexCount; j++)
                 {
-                    var orientedPoint = SplineRoadUtilities.GetVertexBaseOnKnot(
+                    var orientedPoint = SplineRoadUtilities.GetVertexBasedOnKnot(
                         _properties.SplineContainer.Spline.Knots.ToArray()[i],
                         _properties.MeshDataContainer.Vertices[j].point
                     );

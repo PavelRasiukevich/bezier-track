@@ -10,14 +10,14 @@ namespace ptl.bezier
 
         public void CreateMesh(TrackProperties properties)
         {
-            //if (!properties.MeshDataContainer) return;
-
             if (_track == null)
             {
                 _track = new GameObject("Track");
                 _track.AddComponent<MeshFilter>();
                 _track.AddComponent<MeshRenderer>();
                 _track.transform.parent = properties.transform;
+                _track.transform.position = properties.transform.position;
+                _track.transform.rotation = properties.transform.rotation;
             }
 
             if (_mesh == null)
@@ -32,7 +32,7 @@ namespace ptl.bezier
 
             _track.GetComponent<MeshFilter>().sharedMesh = _mesh;
             _track.GetComponent<MeshRenderer>().sharedMaterial = properties.Material;
-            
+
             _trackConstructor.ConstructTrack(properties, _mesh);
         }
 

@@ -11,19 +11,26 @@ namespace ptl.bezier
         [SerializeField] private List<int> _triangles;
         [SerializeField] private List<Vector3> _normals;
         [SerializeField] private List<Vector2> _uvs;
+        [SerializeField] private float _lenght;
+        [SerializeField] private int precision;
 
         public void ConstructTrack(TrackProperties properties, Mesh mesh)
         {
+            LengthTable table = null;
+            table = new LengthTable(properties.SplineContainer, precision);
+
+            _lenght = properties.SplineContainer.CalculateLength(0);
+
             //VERTICES GENERATION
             _vertices = new List<Vector3>();
 
             for (int i = 0; i < properties.SplinePointsCount; i++)
             {
                 var t = i / (float)(properties.SplinePointsCount - 1);
-                
+
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
-                    var orientedPoint = SplineRoadUtilities.GetOrientedPoint(
+                    var orientedPoint = SplineRoadUtilities.GetOrientedPointLocalSpace(
                         t,
                         properties.SplineContainer,
                         properties.MeshDataContainer.Vertices[j].point);
@@ -50,24 +57,33 @@ namespace ptl.bezier
                 }
             }
 
+            float tiling = (float)properties.Material.mainTexture.width / properties.Material.mainTexture.height;
+            float uSpan = properties.MeshDataContainer.ShapeData.USpan();
+            tiling *= SplineRoadUtilities.GetArcLength(properties) / uSpan;
+            tiling = Mathf.Max(1, Mathf.Round(tiling));
+
+
             //UVS GENERATION
             _uvs = new List<Vector2>();
-            var lentgh = properties.SplineContainer.CalculateLength(0);
 
             for (int i = 0; i < properties.SplinePointsCount; i++)
             {
                 var t = i / (float)(properties.SplinePointsCount - 1);
 
+                float tUv = t;
+                 tUv = table.ToPercentage(tUv);
+                float uv0V = tUv * tiling;
+
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
+                    _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V * _lenght / uSpan));
                     var u = properties.MeshDataContainer.Vertices[j].UVs.x;
-                    _uvs.Add(new Vector2(u, t * lentgh));
+                    //_uvs.Add(new Vector2(u, t * _lenght));
                 }
             }
 
             //TRIANGLES GENERATION
             _triangles = new List<int>();
-
             for (int i = 0; i < properties.SplinePointsCount - 1; i++)
             {
                 int rootIndex = (i) * properties.MeshDataContainer.VertexCount;

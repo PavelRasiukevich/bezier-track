@@ -9,12 +9,25 @@ namespace ptl.bezier
     {
         public List<Vertex> Vertices;
         public List<int> Lines;
-        
+
         public List<Vertex> ListOfVertices => Vertices;
         public List<int> ListOfLines => Lines;
         public int VertexCount => Vertices.Count;
         public int LineCount => Lines.Count;
-        
+
+        public float USpan()
+        {
+            float distance = 0;
+
+            for (int i = 0; i < LineCount; i += 2)
+            {
+                Vector3 a = Vertices[Lines[i]].point;
+                Vector3 b = Vertices[Lines[i + 1]].point;
+                distance += (a - b).magnitude;
+            }
+
+            return distance;
+        }
     }
 
     [Serializable]

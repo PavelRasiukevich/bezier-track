@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -23,6 +24,8 @@ namespace ptl.bezier
         public int SplinePointsCount => _splinePointsCount;
         public float RoadWidth => _roadWidth;
 
+        private List<Vector3> _v;
+
         private void OnValidate()
         {
             ValueChanged?.Invoke();
@@ -37,6 +40,22 @@ namespace ptl.bezier
                 //find in project files stub 
                 //add it to _meshDataContainer
             }
+        }
+
+        public void Draw(List<Vector3> v)
+        {
+            _v = v;
+        }
+
+        private void OnDrawGizmos()
+        {
+            // Debug.Log("DRAW");
+            // Gizmos.color = Color.green;
+            //
+            // for (int i = 0; i < _v.Count; i++)
+            // {
+            //     Gizmos.DrawSphere(_v[i], 0.055f);
+            // }
         }
     }
 }
