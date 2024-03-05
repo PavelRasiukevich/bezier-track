@@ -37,25 +37,8 @@ namespace ptl.bezier
 
             if (_meshDataContainer == null)
             {
-                //find in project files stub 
-                //add it to _meshDataContainer
+                _meshDataContainer = Resources.Load<ScriptableMeshDataContainer>("Stub Mesh Data Container");
             }
-        }
-
-        public void Draw(List<Vector3> v)
-        {
-            _v = v;
-        }
-
-        private void OnDrawGizmos()
-        {
-            // Debug.Log("DRAW");
-            // Gizmos.color = Color.green;
-            //
-            // for (int i = 0; i < _v.Count; i++)
-            // {
-            //     Gizmos.DrawSphere(_v[i], 0.055f);
-            // }
         }
     }
 }

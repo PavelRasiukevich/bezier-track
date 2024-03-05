@@ -100,7 +100,7 @@ namespace ptl.bezier
                     var orientedPoint = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
-                        _properties.MeshDataContainer.Vertices[j].point);
+                        _properties.MeshDataContainer.Vertices[j].Point);
 
                     Gizmos.DrawSphere(orientedPoint, _vertexVisualPointRadius);
                 }
@@ -119,14 +119,14 @@ namespace ptl.bezier
                     var current = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
-                        _properties.MeshDataContainer.Vertices[j + 1].point,
+                        _properties.MeshDataContainer.Vertices[j + 1].Point,
                         _properties.RoadWidth);
 
 
                     var next = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
-                        _properties.MeshDataContainer.Vertices[(j + 2) % _properties.MeshDataContainer.Vertices.Count].point,
+                        _properties.MeshDataContainer.Vertices[(j + 2) % _properties.MeshDataContainer.Vertices.Count].Point,
                         _properties.RoadWidth);
 
                     Gizmos.DrawLine(current, next);
@@ -147,13 +147,13 @@ namespace ptl.bezier
                     var current = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
-                        _properties.MeshDataContainer.Vertices[_properties.MeshDataContainer.Lines[j]].point);
+                        _properties.MeshDataContainer.Vertices[_properties.MeshDataContainer.Lines[j]].Point);
 
 
                     var next = SplineRoadUtilities.GetOrientedPointWorldSpace(
                         t,
                         _properties.SplineContainer,
-                        _properties.MeshDataContainer.Vertices[(_properties.MeshDataContainer.Lines[j + 1]) % _properties.MeshDataContainer.Vertices.Count].point);
+                        _properties.MeshDataContainer.Vertices[(_properties.MeshDataContainer.Lines[j + 1]) % _properties.MeshDataContainer.Vertices.Count].Point);
 
                     Gizmos.DrawLine(current, next);
                 }
@@ -173,7 +173,7 @@ namespace ptl.bezier
                 {
                     var orientedPoint = SplineRoadUtilities.GetVertexBasedOnKnot(
                         _properties.SplineContainer.Spline.Knots.ToArray()[i],
-                        _properties.MeshDataContainer.Vertices[j].point
+                        _properties.MeshDataContainer.Vertices[j].Point
                     );
 
                     Gizmos.DrawSphere(orientedPoint, _splinePointRadius);

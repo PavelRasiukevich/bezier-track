@@ -5,25 +5,31 @@ using UnityEngine;
 namespace ptl.bezier
 {
     [Serializable]
-    public class TrackConstructor
+    public class MeshConstructor
     {
         [SerializeField] private List<Vector3> _vertices;
         [SerializeField] private List<int> _triangles;
         [SerializeField] private List<Vector3> _normals;
         [SerializeField] private List<Vector2> _uvs;
         [SerializeField] private float _lenght;
-        [SerializeField] private int precision;
+        //[SerializeField] private int precision = 16;
+        
+        public MeshConstructor()
+        {
+            _vertices = new List<Vector3>();
+            _triangles = new List<int>();
+            _normals = new List<Vector3>();
+            _uvs = new List<Vector2>();
+        }
 
-        public void ConstructTrack(TrackProperties properties, Mesh mesh)
+        public void ConstructMesh(TrackProperties properties, Mesh mesh)
         {
             LengthTable table = null;
-            table = new LengthTable(properties.SplineContainer, precision);
+            table = new LengthTable(properties.SplineContainer);
 
             _lenght = properties.SplineContainer.CalculateLength(0);
 
-            //VERTICES GENERATION
-            _vertices = new List<Vector3>();
-
+            //VERTICES 
             for (int i = 0; i < properties.SplinePointsCount; i++)
             {
                 var t = i / (float)(properties.SplinePointsCount - 1);
@@ -33,15 +39,13 @@ namespace ptl.bezier
                     var orientedPoint = SplineRoadUtilities.GetOrientedPointLocalSpace(
                         t,
                         properties.SplineContainer,
-                        properties.MeshDataContainer.Vertices[j].point);
+                        properties.MeshDataContainer.Vertices[j].Point);
 
                     _vertices.Add(orientedPoint);
                 }
             }
 
-            //NORMALS GENERATION
-            _normals = new List<Vector3>();
-
+            //NORMALS 
             for (int i = 0; i < properties.SplinePointsCount; i++)
             {
                 var t = i / (float)(properties.SplinePointsCount - 1);
@@ -57,33 +61,34 @@ namespace ptl.bezier
                 }
             }
 
-            float tiling = (float)properties.Material.mainTexture.width / properties.Material.mainTexture.height;
+            float tiling = properties.Material.mainTexture != null
+                ? (float)properties.Material.mainTexture.width / properties.Material.mainTexture.height
+                : 1f;
+
             float uSpan = properties.MeshDataContainer.ShapeData.USpan();
+
             tiling *= SplineRoadUtilities.GetArcLength(properties) / uSpan;
             tiling = Mathf.Max(1, Mathf.Round(tiling));
 
 
-            //UVS GENERATION
-            _uvs = new List<Vector2>();
-
+            //UVS 
             for (int i = 0; i < properties.SplinePointsCount; i++)
             {
                 var t = i / (float)(properties.SplinePointsCount - 1);
 
                 float tUv = t;
-                 tUv = table.ToPercentage(tUv);
+                tUv = table.ToPercentage(tUv);
                 float uv0V = tUv * tiling;
 
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
                     _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V * _lenght / uSpan));
-                    var u = properties.MeshDataContainer.Vertices[j].UVs.x;
+                    //var u = properties.MeshDataContainer.Vertices[j].UVs.x;
                     //_uvs.Add(new Vector2(u, t * _lenght));
                 }
             }
 
-            //TRIANGLES GENERATION
-            _triangles = new List<int>();
+            //TRIANGLES 
             for (int i = 0; i < properties.SplinePointsCount - 1; i++)
             {
                 int rootIndex = (i) * properties.MeshDataContainer.VertexCount;
@@ -114,6 +119,14 @@ namespace ptl.bezier
             mesh.SetNormals(_normals);
             mesh.SetTriangles(_triangles, 0);
             mesh.SetUVs(0, _uvs);
+        }
+
+        public void ClearMeshData()
+        {
+            _uvs.Clear();
+            _triangles.Clear();
+            _vertices.Clear();
+            _normals.Clear();
         }
     }
 }

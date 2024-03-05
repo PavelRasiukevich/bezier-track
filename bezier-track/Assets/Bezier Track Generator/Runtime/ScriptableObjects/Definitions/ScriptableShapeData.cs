@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ptl.bezier
 {
@@ -21,8 +22,8 @@ namespace ptl.bezier
 
             for (int i = 0; i < LineCount; i += 2)
             {
-                Vector3 a = Vertices[Lines[i]].point;
-                Vector3 b = Vertices[Lines[i + 1]].point;
+                Vector3 a = Vertices[Lines[i]].Point;
+                Vector3 b = Vertices[Lines[i + 1]].Point;
                 distance += (a - b).magnitude;
             }
 
@@ -33,7 +34,7 @@ namespace ptl.bezier
     [Serializable]
     public class Vertex
     {
-        public Vector3 point;
+        public Vector3 Point;
         public Vector3 Normal;
         public Vector2 UVs;
     }

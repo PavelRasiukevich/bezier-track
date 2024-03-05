@@ -13,52 +13,52 @@ MonoBehaviour:
   m_Name: Stub Shape Data
   m_EditorClassIdentifier: 
   Vertices:
-  - point: {x: 2, y: 0, z: 0}
+  - Point: {x: 2, y: 0, z: 0}
     Normal: {x: 0, y: 1, z: 0}
     UVs: {x: 0.75, y: 0}
-  - point: {x: 2, y: 0, z: 0}
+  - Point: {x: 2, y: 0, z: 0}
     Normal: {x: -1, y: 0, z: 0}
     UVs: {x: 0.75, y: 0}
-  - point: {x: 2, y: 0.5, z: 0}
+  - Point: {x: 2, y: 0.5, z: 0}
     Normal: {x: -1, y: 0, z: 0}
     UVs: {x: 1, y: 0}
-  - point: {x: 2, y: 0.5, z: 0}
+  - Point: {x: 2, y: 0.5, z: 0}
     Normal: {x: 0, y: 1, z: 0}
     UVs: {x: 0, y: 0}
-  - point: {x: 2.5, y: 0.5, z: 0}
+  - Point: {x: 2.5, y: 0.5, z: 0}
     Normal: {x: 0, y: 1, z: 0}
     UVs: {x: 0.25, y: 0}
-  - point: {x: 2.5, y: 0.5, z: 0}
+  - Point: {x: 2.5, y: 0.5, z: 0}
     Normal: {x: 1, y: 0, z: 0}
     UVs: {x: 0.75, y: 0}
-  - point: {x: 2.5, y: -0.5, z: 0}
+  - Point: {x: 2.5, y: -0.5, z: 0}
     Normal: {x: 1, y: 0, z: 0}
     UVs: {x: 1, y: 0}
-  - point: {x: 2.5, y: -0.5, z: 0}
+  - Point: {x: 2.5, y: -0.5, z: 0}
     Normal: {x: 0, y: -1, z: 0}
     UVs: {x: 0.75, y: 0}
-  - point: {x: -2.5, y: -0.5, z: 0}
+  - Point: {x: -2.5, y: -0.5, z: 0}
     Normal: {x: 0, y: -1, z: 0}
     UVs: {x: 1, y: 0}
-  - point: {x: -2.5, y: -0.5, z: 0}
+  - Point: {x: -2.5, y: -0.5, z: 0}
     Normal: {x: -1, y: 0, z: 0}
     UVs: {x: 0.75, y: 0}
-  - point: {x: -2.5, y: 0.5, z: 0}
+  - Point: {x: -2.5, y: 0.5, z: 0}
     Normal: {x: -1, y: 0, z: 0}
     UVs: {x: 1, y: 0}
-  - point: {x: -2.5, y: 0.5, z: 0}
+  - Point: {x: -2.5, y: 0.5, z: 0}
     Normal: {x: 0, y: 1, z: 0}
     UVs: {x: 0, y: 0}
-  - point: {x: -2, y: 0.5, z: 0}
+  - Point: {x: -2, y: 0.5, z: 0}
     Normal: {x: 0, y: 1, z: 0}
     UVs: {x: 0, y: 0}
-  - point: {x: -2, y: 0.5, z: 0}
+  - Point: {x: -2, y: 0.5, z: 0}
     Normal: {x: 1, y: 0, z: 0}
     UVs: {x: 0.75, y: 0}
-  - point: {x: -2, y: 0, z: 0}
+  - Point: {x: -2, y: 0, z: 0}
     Normal: {x: 1, y: 0, z: 0}
     UVs: {x: 1, y: 0}
-  - point: {x: -2, y: 0, z: 0}
+  - Point: {x: -2, y: 0, z: 0}
     Normal: {x: 0, y: 1, z: 0}
     UVs: {x: 0.25, y: 0}
   Lines: 0f000000000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
