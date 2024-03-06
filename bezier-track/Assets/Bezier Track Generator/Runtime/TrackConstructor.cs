@@ -13,7 +13,7 @@ namespace ptl.bezier
         [SerializeField] private List<Vector2> _uvs;
         [SerializeField] private float _lenght;
         //[SerializeField] private int precision = 16;
-        
+
         public MeshConstructor()
         {
             _vertices = new List<Vector3>();
@@ -78,11 +78,11 @@ namespace ptl.bezier
 
                 float tUv = t;
                 tUv = table.ToPercentage(tUv);
-                float uv0V = tUv * tiling;
+                float uv0V = tUv * properties.Tiling;
 
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
-                    _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V * _lenght / uSpan));
+                    _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V ));
                     //var u = properties.MeshDataContainer.Vertices[j].UVs.x;
                     //_uvs.Add(new Vector2(u, t * _lenght));
                 }

@@ -1,10 +1,13 @@
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor.Splines;
+#endif
 using UnityEngine;
 using UnityEngine.Splines;
 
 namespace ptl.bezier.editor
 {
+#if UNITY_EDITOR
     [ExecuteInEditMode]
     public class EditorSplineModifier : MonoBehaviour
     {
@@ -20,7 +23,7 @@ namespace ptl.bezier.editor
             InitialBuild();
 
             _trackProperties.ValueChanged += PropertiesValueChangeHandler;
-            EditorSplineUtility.AfterSplineWasModified += ModifiedHandler;
+            EditorSplineUtility.AfterSplineWasModified += SplineModifiedHandler;
         }
 
         private void OnDisable()
@@ -28,7 +31,7 @@ namespace ptl.bezier.editor
             if (!Application.isEditor) return;
 
             _trackProperties.ValueChanged -= PropertiesValueChangeHandler;
-            EditorSplineUtility.AfterSplineWasModified -= ModifiedHandler;
+            EditorSplineUtility.AfterSplineWasModified -= SplineModifiedHandler;
         }
 
         private void OnDestroy()
@@ -36,7 +39,7 @@ namespace ptl.bezier.editor
             if (!Application.isEditor) return;
 
             _trackProperties.ValueChanged -= PropertiesValueChangeHandler;
-            EditorSplineUtility.AfterSplineWasModified -= ModifiedHandler;
+            EditorSplineUtility.AfterSplineWasModified -= SplineModifiedHandler;
         }
 
         private void PropertiesValueChangeHandler()
@@ -45,7 +48,7 @@ namespace ptl.bezier.editor
             Create();
         }
 
-        private void ModifiedHandler(Spline spline)
+        private void SplineModifiedHandler(Spline spline)
         {
             if (_splineContainer.Splines.Contains(spline))
             {
@@ -76,4 +79,5 @@ namespace ptl.bezier.editor
         [ContextMenu("Delete Completely")]
         private void Delete() => _trackCreator.DeleteTrackCompletely();
     }
+#endif
 }

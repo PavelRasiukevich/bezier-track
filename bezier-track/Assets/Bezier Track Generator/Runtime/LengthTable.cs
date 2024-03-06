@@ -9,7 +9,7 @@ namespace ptl.bezier
 
         int SmpCount => distances.Length;
         float TotalLength => distances[SmpCount - 1];
-        public LengthTable( SplineContainer container, int precision = 16 ) {
+        public LengthTable( SplineContainer container, int precision = 2 ) {
             
             distances = new float[precision];
             Vector3 prevPoint = container.Spline.GetCurve(0).P0;
