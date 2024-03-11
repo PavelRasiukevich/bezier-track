@@ -15,9 +15,8 @@ namespace ptl.bezier
         [Header("Settings")] [Range(8, 1024)] [SerializeField]
         private int _splinePointsCount = 8;
 
-        [Range(0.1f, 256f)] [SerializeField] 
-        private float _tiling = 2f;
-        
+        [Range(0.1f, 256f)] [SerializeField] private float _tiling = 2f;
+
         //TODO: change range value to bigger values (.5f - 5f)
         [Range(1f, 3f)] [SerializeField] private float _roadWidth;
 

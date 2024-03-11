@@ -49,7 +49,7 @@ namespace ptl.bezier
                 DrawVertexBasedOnKnot();
             }
         }
-
+        
         private void DrawSplinePoints()
         {
             for (int i = 0; i < _properties.SplinePointsCount; i++)

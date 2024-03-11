@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -11,13 +12,32 @@ namespace ptl.bezier
         float TotalLength => distances[SmpCount - 1];
         public LengthTable( SplineContainer container, int precision = 2 ) {
             
-            distances = new float[precision];
+           var pres = container.Spline.Count;
+            
+            distances = new float[pres];
             Vector3 prevPoint = container.Spline.GetCurve(0).P0;
             
             distances[0] = 0f;
+            for( int i = 1; i < pres; i++ ) {
+                float t = i / (pres - 1f);
+                Vector3 currentPoint = container.Spline.EvaluatePosition(t);
+                float delta = (prevPoint-currentPoint).magnitude;
+                distances[i] = distances[i - 1] + delta;
+                prevPoint = currentPoint;
+            }
+        }
+        
+        public void CreateLenghTable( SplineContainer container, int precision = 16, float r = 1f ) {
+            
+            distances = new float[precision];
+            
+            Vector3 prevPoint = container.Spline.GetCurve(0).P0;
+            
+            distances[0] = 0f;
+            
             for( int i = 1; i < precision; i++ ) {
                 float t = i / (precision - 1f);
-                Vector3 currentPoint = container.Spline.EvaluatePosition(t);
+                Vector3 currentPoint = container.EvaluatePosition(t);
                 float delta = (prevPoint-currentPoint).magnitude;
                 distances[i] = distances[i - 1] + delta;
                 prevPoint = currentPoint;

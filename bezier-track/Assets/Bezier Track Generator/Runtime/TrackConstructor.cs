@@ -12,7 +12,11 @@ namespace ptl.bezier
         [SerializeField] private List<Vector3> _normals;
         [SerializeField] private List<Vector2> _uvs;
         [SerializeField] private float _lenght;
+        
         //[SerializeField] private int precision = 16;
+        // private Vector3 _current;
+        // private Vector3 _previous;
+        // private float _distance;
 
         public MeshConstructor()
         {
@@ -75,17 +79,15 @@ namespace ptl.bezier
             //UVS 
             for (int i = 0; i < properties.SplinePointsCount; i++)
             {
-                var t = i / (float)(properties.SplinePointsCount - 1);
+                var t = i / (properties.SplinePointsCount - 1f);
 
-                float tUv = t;
-                tUv = table.ToPercentage(tUv);
-                float uv0V = tUv * properties.Tiling;
+                 float tUv = t;
+                 tUv = table.ToPercentage(tUv);
+                 float uv0V = tUv * _lenght / uSpan;
 
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
                     _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V ));
-                    //var u = properties.MeshDataContainer.Vertices[j].UVs.x;
-                    //_uvs.Add(new Vector2(u, t * _lenght));
                 }
             }
 
