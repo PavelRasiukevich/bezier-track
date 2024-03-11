@@ -39,7 +39,8 @@ namespace ptl.bezier
                     var orientedPoint = SplineRoadUtilities.GetOrientedPointLocalSpace(
                         t,
                         properties.SplineContainer,
-                        properties.MeshDataContainer.Vertices[j].Point);
+                        properties.MeshDataContainer.Vertices[j].Point,
+                        properties.RoadWidth);
 
                     _vertices.Add(orientedPoint);
                 }
