@@ -18,7 +18,7 @@ namespace ptl.bezier
         [Range(0.1f, 256f)] [SerializeField] private float _tiling = 2f;
 
         //TODO: change range value to bigger values (.5f - 5f)
-        [Range(1f, 3f)] [SerializeField] private float _roadWidth;
+        [Range(1f, 16f)] [SerializeField] private float _roadWidth;
 
         public float Tiling => _tiling;
         public Material Material => _meshDataContainer.Material;
