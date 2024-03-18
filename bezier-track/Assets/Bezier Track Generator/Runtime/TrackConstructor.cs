@@ -12,7 +12,7 @@ namespace ptl.bezier
         [SerializeField] private List<Vector3> _normals;
         [SerializeField] private List<Vector2> _uvs;
         [SerializeField] private float _lenght;
-        
+
         //[SerializeField] private int precision = 16;
         // private Vector3 _current;
         // private Vector3 _previous;
@@ -81,13 +81,13 @@ namespace ptl.bezier
             {
                 var t = i / (properties.SplinePointsCount - 1f);
 
-                 float tUv = t;
-                 tUv = table.ToPercentage(tUv);
-                 float uv0V = tUv * _lenght / uSpan;
+                float tUv = t;
+                tUv = table.ToPercentage(tUv);
+                float uv0V = tUv * _lenght / uSpan;
 
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
-                    _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V ));
+                    _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V));
                 }
             }
 
@@ -122,6 +122,102 @@ namespace ptl.bezier
             mesh.SetNormals(_normals);
             mesh.SetTriangles(_triangles, 0);
             mesh.SetUVs(0, _uvs);
+        }
+        
+        public void ConstructVertices(TrackProperties properties, Mesh mesh, int k)
+        {
+            var t = k / (float)(properties.SplinePointsCount - 1);
+
+            for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
+            {
+                var orientedPoint = SplineRoadUtilities.GetOrientedPointLocalSpace(
+                    t,
+                    properties.SplineContainer,
+                    properties.MeshDataContainer.Vertices[j].Point,
+                    properties.RoadWidth);
+
+                _vertices.Add(orientedPoint);
+            }
+
+            mesh.SetVertices(_vertices);
+        }
+
+        public void ConstructNormals(TrackProperties properties, Mesh mesh, int k)
+        {
+            var t = k / (float)(properties.SplinePointsCount - 1);
+
+            for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
+            {
+                var point = SplineRoadUtilities.LocalToWorldVec(
+                    t,
+                    properties.SplineContainer,
+                    properties.MeshDataContainer.Vertices[j].Normal);
+
+                _normals.Add(point);
+            }
+
+            mesh.SetNormals(_normals);
+        }
+
+        public void ConstructUVs(TrackProperties properties, Mesh mesh, int k)
+        {
+            LengthTable table = null;
+            table = new LengthTable(properties.SplineContainer);
+
+            _lenght = properties.SplineContainer.CalculateLength(0);
+
+            float tiling = properties.Material.mainTexture != null
+                ? (float)properties.Material.mainTexture.width / properties.Material.mainTexture.height
+                : 1f;
+
+            float uSpan = properties.MeshDataContainer.ShapeData.USpan();
+
+            tiling *= SplineRoadUtilities.GetArcLength(properties) / uSpan;
+            tiling = Mathf.Max(1, Mathf.Round(tiling));
+
+            var t = k / (properties.SplinePointsCount - 1f);
+
+            float tUv = t;
+            tUv = table.ToPercentage(tUv);
+            float uv0V = tUv * _lenght / uSpan;
+
+            for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
+            {
+                _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V));
+            }
+
+            mesh.SetUVs(0, _uvs);
+        }
+
+        public void ConstructTriangles(TrackProperties properties, Mesh mesh)
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                int rootIndex = (i) * properties.MeshDataContainer.VertexCount;
+                int rootIndexNext = (i + 1) * properties.MeshDataContainer.VertexCount;
+
+                for (int j = 0; j < properties.MeshDataContainer.LineCount; j += 2)
+                {
+                    int lineIndexA = properties.MeshDataContainer.Lines[j];
+                    int lineIndexB = properties.MeshDataContainer.Lines[j + 1];
+
+                    int currentA = rootIndex + lineIndexA;
+                    int currentB = rootIndex + lineIndexB;
+
+                    int nextA = rootIndexNext + lineIndexA;
+                    int nextB = rootIndexNext + lineIndexB;
+
+                    _triangles.Add(currentA);
+                    _triangles.Add(nextA);
+                    _triangles.Add(nextB);
+
+                    _triangles.Add(currentA);
+                    _triangles.Add(nextB);
+                    _triangles.Add(currentB);
+                }
+            }
+
+            mesh.SetTriangles(_triangles, 0);
         }
 
         public void ClearMeshData()

@@ -52,7 +52,8 @@ namespace ptl.bezier.editor
         {
             if (_splineContainer.Splines.Contains(spline))
             {
-                Clear();
+                //Clear();
+                Delete();
                 Create();
             }
         }
@@ -66,7 +67,7 @@ namespace ptl.bezier.editor
 
         private void InitialBuild()
         {
-            _trackCreator.DeleteTrackCompletely();
+            _trackCreator.DeleteTrackCompletely(_trackProperties);
             _trackCreator.CreateTrack(_trackProperties);
         }
 
@@ -74,10 +75,10 @@ namespace ptl.bezier.editor
         private void Create() => _trackCreator.CreateTrack(_trackProperties);
 
         [ContextMenu("Clear Track Data")]
-        private void Clear() => _trackCreator.ClearTrack();
+        private void Clear() => _trackCreator.ClearTrack(_trackProperties);
 
         [ContextMenu("Delete Completely")]
-        private void Delete() => _trackCreator.DeleteTrackCompletely();
+        private void Delete() => _trackCreator.DeleteTrackCompletely(_trackProperties);
     }
 #endif
 }

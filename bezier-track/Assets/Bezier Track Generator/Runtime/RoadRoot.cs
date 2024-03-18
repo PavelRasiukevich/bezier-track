@@ -29,14 +29,14 @@ namespace ptl.bezier
         private void Clear()
         {
             _trackCreator = GetComponent<TrackCreator>();
-            _trackCreator.ClearTrack();
+            _trackCreator.ClearTrack(GetComponent<TrackProperties>());
         }
 
 
         private void Delete()
         {
             _trackCreator = GetComponent<TrackCreator>();
-            _trackCreator.DeleteTrackCompletely();
+            _trackCreator.DeleteTrackCompletely(GetComponent<TrackProperties>());
         }
     }
 }
