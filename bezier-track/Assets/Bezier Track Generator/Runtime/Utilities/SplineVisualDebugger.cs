@@ -53,15 +53,11 @@ namespace ptl.bezier
                     Gizmos.DrawLine(point, tangent);
                 }
             }
-
-
+            
             Gizmos.color = Color.green;
 
             Vector3 t1 = (_splineContainer.Spline.GetCurve(0).P1 - _splineContainer.Spline.GetCurve(0).P0);
             Vector3 t2 = (_splineContainer.Spline.GetCurve(1).P2 - _splineContainer.Spline.GetCurve(0).P3);
-
-            Debug.Log(t1.magnitude);
-            Debug.Log(t2.magnitude);
 
             var r1 = (Vector3)_splineContainer.Spline.GetCurve(0).P0 + t1;
             var r2 = (Vector3)_splineContainer.Spline.GetCurve(0).P3 + t2;

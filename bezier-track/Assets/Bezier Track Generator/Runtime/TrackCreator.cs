@@ -7,7 +7,7 @@ namespace ptl.bezier
     {
         [SerializeField] private Mesh _mesh;
         [SerializeField] private GameObject _track;
-        [SerializeField] private MeshConstructor _meshConstructor;
+        [SerializeField] private TrackConstructor _trackConstructor;
 
         public void CreateTrack(TrackProperties properties)
         {
@@ -30,17 +30,17 @@ namespace ptl.bezier
                 _track.transform.position = properties.transform.position;
                 _track.transform.rotation = properties.transform.rotation;
             }
-            
+
             _track.GetComponent<MeshFilter>().sharedMesh = _mesh;
             _track.GetComponent<MeshRenderer>().sharedMaterial = properties.Material;
 
-            _meshConstructor ??= new MeshConstructor();
-            _meshConstructor.ConstructMesh(properties, _mesh);
+            _trackConstructor ??= new TrackConstructor();
+            _trackConstructor.ConstructMesh(properties, _mesh);
         }
 
         public void ClearTrack()
         {
-            _meshConstructor.ClearMeshData();
+            _trackConstructor.ClearMeshData();
             if (_mesh) _mesh.Clear();
         }
 
@@ -52,7 +52,7 @@ namespace ptl.bezier
         {
             DestroyImmediate(_mesh);
             DestroyImmediate(_track);
-            _meshConstructor = null;
+            _trackConstructor = null;
         }
     }
 }

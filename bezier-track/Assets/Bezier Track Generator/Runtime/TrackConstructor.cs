@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ptl.bezier
 {
     [Serializable]
-    public class MeshConstructor
+    public class TrackConstructor
     {
         [SerializeField] private List<Vector3> _vertices;
         [SerializeField] private List<int> _triangles;
@@ -18,7 +18,7 @@ namespace ptl.bezier
         // private Vector3 _previous;
         // private float _distance;
 
-        public MeshConstructor()
+        public TrackConstructor()
         {
             _vertices = new List<Vector3>();
             _triangles = new List<int>();
