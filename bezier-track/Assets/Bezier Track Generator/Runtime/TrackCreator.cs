@@ -15,8 +15,10 @@ namespace ptl.bezier
         [SerializeField] private List<GameObject> _trackes;
         [SerializeField] private TrackConstructor _trackConstructor;
 
+        [Header("----------------")] [SerializeField]
         private Mesh[] _meshesToDelete;
-        private GameObject[] _goToDelete;
+
+        [SerializeField] private GameObject[] _goToDelete;
 
         public void CreateTrack(TrackProperties properties)
         {
@@ -66,8 +68,6 @@ namespace ptl.bezier
 
         private void CreateMultipleTrack(TrackProperties properties)
         {
-            DeleteUnused();
-
             var segments = properties.SplinePointsCount - 1;
 
             for (int i = 0; i < segments; i++)
@@ -154,6 +154,8 @@ namespace ptl.bezier
 
                     _meshes.Clear();
                     _trackes.Clear();
+
+                    DeleteUnused();
 
                     break;
                 case TrackType.None:

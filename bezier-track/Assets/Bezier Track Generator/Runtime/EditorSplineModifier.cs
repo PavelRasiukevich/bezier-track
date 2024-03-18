@@ -47,7 +47,7 @@ namespace ptl.bezier.editor
             Clear();
             Create();
         }
-
+        
         private void SplineModifiedHandler(Spline spline)
         {
             if (_splineContainer.Splines.Contains(spline))
