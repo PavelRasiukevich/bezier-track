@@ -31,8 +31,7 @@ namespace ptl.bezier
             _trackCreator = GetComponent<TrackCreator>();
             _trackCreator.ClearTrack(GetComponent<TrackProperties>());
         }
-
-
+        
         private void Delete()
         {
             _trackCreator = GetComponent<TrackCreator>();

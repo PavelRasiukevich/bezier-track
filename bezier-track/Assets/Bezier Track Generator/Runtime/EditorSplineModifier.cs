@@ -44,7 +44,7 @@ namespace ptl.bezier.editor
 
         private void PropertiesValueChangeHandler()
         {
-            Clear();
+            _trackCreator.DeleteOnValidate(_trackProperties);
             Create();
         }
         
@@ -52,7 +52,6 @@ namespace ptl.bezier.editor
         {
             if (_splineContainer.Splines.Contains(spline))
             {
-                //Clear();
                 Delete();
                 Create();
             }

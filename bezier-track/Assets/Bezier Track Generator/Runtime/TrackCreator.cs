@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ptl.bezier.Enums;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,13 +13,8 @@ namespace ptl.bezier
         [SerializeField] private Mesh _mesh;
         [SerializeField] private GameObject _track;
         [SerializeField] private List<Mesh> _meshes;
-        [SerializeField] private List<GameObject> _trackes;
+        [SerializeField] private List<GameObject> _tracks;
         [SerializeField] private TrackConstructor _trackConstructor;
-
-        [Header("----------------")] [SerializeField]
-        private Mesh[] _meshesToDelete;
-
-        [SerializeField] private GameObject[] _goToDelete;
 
         public void CreateTrack(TrackProperties properties)
         {
@@ -65,7 +61,7 @@ namespace ptl.bezier
             _trackConstructor ??= new TrackConstructor();
             _trackConstructor.ConstructMesh(properties, _mesh);
         }
-
+        
         private void CreateMultipleTrack(TrackProperties properties)
         {
             var segments = properties.SplinePointsCount - 1;
@@ -80,7 +76,7 @@ namespace ptl.bezier
                 var track = new GameObject($"Track Segment _{i}");
 
                 _meshes.Add(mesh);
-                _trackes.Add(track);
+                _tracks.Add(track);
 
                 track.AddComponent<MeshFilter>();
                 track.AddComponent<MeshRenderer>();
@@ -106,29 +102,6 @@ namespace ptl.bezier
             }
         }
 
-        private void DeleteUnused()
-        {
-            if (_meshesToDelete.Length > 0 && _meshesToDelete != null)
-            {
-                foreach (var mesh in _meshesToDelete)
-                {
-                    UnityEditor.EditorApplication.delayCall += () => { DestroyImmediate(mesh); };
-                }
-
-                _meshesToDelete = null;
-            }
-
-            if (_goToDelete.Length > 0 && _goToDelete != null)
-            {
-                foreach (var go in _goToDelete)
-                {
-                    UnityEditor.EditorApplication.delayCall += () => { DestroyImmediate(go); };
-                }
-
-                _goToDelete = null;
-            }
-        }
-
         public void ClearTrack(TrackProperties properties)
         {
             switch (properties.TrackType)
@@ -138,25 +111,6 @@ namespace ptl.bezier
                     if (_mesh) _mesh.Clear();
                     break;
                 case TrackType.Multiple:
-
-                    _trackConstructor.ClearMeshData();
-
-                    _meshesToDelete = new Mesh [_meshes.Count];
-                    _meshes.CopyTo(_meshesToDelete);
-
-                    _goToDelete = new GameObject [_trackes.Count];
-                    _trackes.CopyTo(_goToDelete);
-
-                    foreach (var mesh in _meshes)
-                    {
-                        mesh.Clear();
-                    }
-
-                    _meshes.Clear();
-                    _trackes.Clear();
-
-                    DeleteUnused();
-
                     break;
                 case TrackType.None:
                     break;
@@ -174,27 +128,31 @@ namespace ptl.bezier
             switch (properties.TrackType)
             {
                 case TrackType.Single:
-                    DestroyImmediate(_mesh);
-                    DestroyImmediate(_track);
-                    _trackConstructor = null;
+                    DeleteMultiple();
+                    DeleteSingle();
                     break;
                 case TrackType.Multiple:
+                    DeleteSingle();
+                    DeleteMultiple();
+                    break;
+                case TrackType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
-                    foreach (var mesh in _meshes)
-                    {
-                        DestroyImmediate(mesh);
-                    }
-
-                    _meshes.Clear();
-
-                    foreach (var track in _trackes)
-                    {
-                        DestroyImmediate(track);
-                    }
-
-                    _trackes.Clear();
-
-                    _trackConstructor = null;
+        public void DeleteOnValidate(TrackProperties properties)
+        {
+            switch (properties.TrackType)
+            {
+                case TrackType.Single:
+                    DeleteMultipleTypeFromValidate();
+                    DeleteSingleFromValidate();
+                    break;
+                case TrackType.Multiple:
+                    DeleteSingleFromValidate();
+                    DeleteMultipleTypeFromValidate();
 
                     break;
                 case TrackType.None:
@@ -202,6 +160,54 @@ namespace ptl.bezier
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void DeleteSingle()
+        {
+            DestroyImmediate(_mesh);
+            DestroyImmediate(_track);
+            _trackConstructor = null;
+        }
+
+        private void DeleteSingleFromValidate()
+        {
+            _trackConstructor.ClearMeshData();
+            if (_mesh) _mesh.Clear();
+        }
+
+        private void DeleteMultiple()
+        {
+            foreach (var mesh in _meshes)
+            {
+                DestroyImmediate(mesh);
+            }
+
+            _meshes.Clear();
+
+            foreach (var track in _tracks)
+            {
+                DestroyImmediate(track);
+            }
+
+            _tracks.Clear();
+
+            _trackConstructor = null;
+        }
+
+        private void DeleteMultipleTypeFromValidate()
+        {
+            foreach (var mesh in _meshes)
+            {
+                EditorApplication.delayCall += () => { DestroyImmediate(mesh); };
+            }
+
+            foreach (var go in _tracks)
+            {
+                EditorApplication.delayCall += () => { DestroyImmediate(go); };
+            }
+
+            _meshes.Clear();
+            _tracks.Clear();
         }
     }
 }
