@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.Splines;
 

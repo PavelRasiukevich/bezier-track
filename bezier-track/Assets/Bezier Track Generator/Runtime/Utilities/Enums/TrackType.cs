@@ -1,4 +1,4 @@
-namespace ptl.bezier.Enums
+namespace ptl.bezier
 {
     public enum TrackType
     {

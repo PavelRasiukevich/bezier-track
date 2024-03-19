@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using ptl.bezier.Enums;
 using UnityEngine;
 using UnityEngine.Splines;
 

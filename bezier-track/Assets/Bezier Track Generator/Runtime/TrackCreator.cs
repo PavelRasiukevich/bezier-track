@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using ptl.bezier.Enums;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ptl.bezier
 {
