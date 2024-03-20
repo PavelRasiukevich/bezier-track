@@ -13,6 +13,8 @@ namespace ptl.bezier
         [SerializeField] private List<GameObject> _tracks;
         [SerializeField] private TrackConstructor _trackConstructor;
 
+        public TrackConstructor TrackConstructor => _trackConstructor;
+
         public void CreateTrack(TrackProperties properties)
         {
             switch (properties.TrackType)
@@ -22,6 +24,9 @@ namespace ptl.bezier
                     break;
                 case TrackType.Multiple:
                     CreateMultipleTrack(properties);
+                    break;
+                case TrackType.KnotBased:
+                    CreateTrackBasedOnKnots(properties);
                     break;
                 case TrackType.None:
                 default:
@@ -58,7 +63,7 @@ namespace ptl.bezier
             _trackConstructor ??= new TrackConstructor();
             _trackConstructor.ConstructMesh(properties, _mesh);
         }
-        
+
         private void CreateMultipleTrack(TrackProperties properties)
         {
             var segments = properties.SplinePointsCount - 1;
@@ -94,7 +99,41 @@ namespace ptl.bezier
                     _trackConstructor.ConstructUVs(properties, mesh, j + i);
                 }
 
-                _trackConstructor.ConstructTriangles(properties, mesh);
+                _trackConstructor.ConstructTriangles(properties, mesh, 1);
+                _trackConstructor.ClearMeshData();
+            }
+        }
+
+        private void CreateTrackBasedOnKnots(TrackProperties properties)
+        {
+            for (int i = 0; i < properties.SplineContainer.Spline.Count - 1; i++)
+            {
+                var mesh = new Mesh
+                {
+                    name = "Procedural Mesh Based On Knot " + i
+                };
+
+                var track = new GameObject($"Knot Track Segment_{i}");
+
+                _meshes.Add(mesh);
+                _tracks.Add(track);
+
+                track.AddComponent<MeshFilter>();
+                track.AddComponent<MeshRenderer>();
+
+                track.transform.parent = properties.transform;
+                track.transform.position = properties.transform.position;
+                track.transform.rotation = properties.transform.rotation;
+
+                track.GetComponent<MeshFilter>().sharedMesh = mesh;
+                track.GetComponent<MeshRenderer>().sharedMaterial = properties.Material;
+
+                _trackConstructor ??= new TrackConstructor();
+
+                _trackConstructor.ConstructBezierCurveVertices(properties, mesh, i);
+                _trackConstructor.ConstructBezierCurveNormals(properties, mesh);
+                //TODO: add UVs
+                _trackConstructor.ConstructTriangles(properties, mesh, properties.SplinePointsCount - 1);
                 _trackConstructor.ClearMeshData();
             }
         }
@@ -108,6 +147,10 @@ namespace ptl.bezier
                     if (_mesh) _mesh.Clear();
                     break;
                 case TrackType.Multiple:
+                    Debug.Log("Not Implemented YET");
+                    break;
+                case TrackType.KnotBased:
+                    Debug.Log("Not Implemented YET");
                     break;
                 case TrackType.None:
                     break;
@@ -132,6 +175,10 @@ namespace ptl.bezier
                     DeleteSingle();
                     DeleteMultiple();
                     break;
+                case TrackType.KnotBased:
+                    DeleteSingle();
+                    DeleteMultiple();
+                    break;
                 case TrackType.None:
                     break;
                 default:
@@ -150,7 +197,10 @@ namespace ptl.bezier
                 case TrackType.Multiple:
                     DeleteSingleFromValidate();
                     DeleteMultipleTypeFromValidate();
-
+                    break;
+                case TrackType.KnotBased:
+                    DeleteSingleFromValidate();
+                    DeleteMultipleTypeFromValidate();
                     break;
                 case TrackType.None:
                     break;

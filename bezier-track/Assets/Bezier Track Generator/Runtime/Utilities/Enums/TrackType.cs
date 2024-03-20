@@ -4,6 +4,7 @@ namespace ptl.bezier
     {
         None,
         Single,
-        Multiple
+        Multiple,
+        KnotBased
     }
 }

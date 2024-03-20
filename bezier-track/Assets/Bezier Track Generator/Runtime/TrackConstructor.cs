@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace ptl.bezier
 {
@@ -12,6 +13,8 @@ namespace ptl.bezier
         [SerializeField] private List<Vector3> _normals;
         [SerializeField] private List<Vector2> _uvs;
         [SerializeField] private float _lenght;
+
+        public List<Vector3> Verts => _vertices;
 
         //[SerializeField] private int precision = 16;
         // private Vector3 _current;
@@ -123,7 +126,81 @@ namespace ptl.bezier
             mesh.SetTriangles(_triangles, 0);
             mesh.SetUVs(0, _uvs);
         }
-        
+
+        public void ConstructBezierCurveVertices(TrackProperties properties, Mesh mesh, int curveIndex)
+        {
+            for (int i = 0; i < properties.SplinePointsCount; i++)
+            {
+                var t = i / (properties.SplinePointsCount - 1f);
+
+                for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
+                {
+                    var orientedPoint = SplineRoadUtilities.GetCurveOrientedPointLocalSpace(
+                        properties.SplineContainer,
+                        properties.MeshDataContainer.Vertices[j].Point,
+                        t,
+                        curveIndex,
+                        properties.RoadWidth
+                    );
+
+                    _vertices.Add(orientedPoint);
+                }
+            }
+
+            mesh.SetVertices(_vertices);
+        }
+
+        public void ConstructBezierCurveNormals(TrackProperties properties, Mesh mesh)
+        {
+            for (int i = 0; i < properties.SplinePointsCount; i++)
+            {
+                var t = i / (properties.SplinePointsCount - 1f);
+
+                for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
+                {
+                    var point = SplineRoadUtilities.LocalToWorldVec(
+                        t,
+                        properties.SplineContainer,
+                        properties.MeshDataContainer.Vertices[j].Normal);
+
+                    _normals.Add(point);
+                }
+            }
+
+            mesh.SetNormals(_normals);
+        }
+
+        public void ConstructBezierCurveTriangles(TrackProperties properties, Mesh mesh)
+        {
+            for (int i = 0; i < properties.SplinePointsCount - 1; i++)
+            {
+                int rootIndex = i * properties.MeshDataContainer.VertexCount; // 0
+                int rootIndexNext = (i + 1) * properties.MeshDataContainer.VertexCount; // 16
+                
+                for (int j = 0; j < properties.MeshDataContainer.LineCount; j += 2)
+                {
+                    int lineIndexA = properties.MeshDataContainer.Lines[j]; // 15
+                    int lineIndexB = properties.MeshDataContainer.Lines[j + 1]; // 0
+
+                    int currentA = rootIndex + lineIndexA; // 0 + 15 = 15
+                    int currentB = rootIndex + lineIndexB; // 0 + 0 = 0
+
+                    int nextA = rootIndexNext + lineIndexA; // 17 + 15 = 31
+                    int nextB = rootIndexNext + lineIndexB; // 17 + 0 = 16
+
+                    _triangles.Add(currentA);
+                    _triangles.Add(nextA);
+                    _triangles.Add(nextB);
+
+                    _triangles.Add(currentA);
+                    _triangles.Add(nextB);
+                    _triangles.Add(currentB);
+                }
+            }
+
+            mesh.SetTriangles(_triangles, 0);
+        }
+
         public void ConstructVertices(TrackProperties properties, Mesh mesh, int k)
         {
             var t = k / (float)(properties.SplinePointsCount - 1);
@@ -189,11 +266,11 @@ namespace ptl.bezier
             mesh.SetUVs(0, _uvs);
         }
 
-        public void ConstructTriangles(TrackProperties properties, Mesh mesh)
+        public void ConstructTriangles(TrackProperties properties, Mesh mesh, int value)
         {
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < value; i++)
             {
-                int rootIndex = (i) * properties.MeshDataContainer.VertexCount;
+                int rootIndex = i * properties.MeshDataContainer.VertexCount;
                 int rootIndexNext = (i + 1) * properties.MeshDataContainer.VertexCount;
 
                 for (int j = 0; j < properties.MeshDataContainer.LineCount; j += 2)

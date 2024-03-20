@@ -6,18 +6,114 @@ namespace ptl.bezier
     public class SplineVisualDebugger : MonoBehaviour
     {
         [SerializeField] private SplineContainer _splineContainer;
+        [Range(0f, 1f)] [SerializeField] private float _t;
 
         public bool AllTangents;
+        public int index;
 
         [Range(0.01f, 1f)] public float KnotPointRadius;
-        [Range(2, 64)] public float Resolution;
+        [Range(2, 256)] public int Resolution;
+
+        private Vector3 _tangent;
+        private Vector3 _normal;
+        private Vector3 _orientedPoint;
 
         private void OnDrawGizmos()
         {
             _splineContainer = GetComponent<SplineContainer>();
 
-            DrawControlPoints();
-            DrawEvaluatedTangents();
+            // DrawControlPoints();
+            //DrawEvaluatedTangents();
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Debug.Log(_splineContainer.Spline.Count);
+            }
+
+            var curve = _splineContainer.Spline.GetCurve(0);
+
+            Gizmos.color = Color.yellow;
+
+            //Gizmos.DrawSphere(DrawCurveByT(curve, _t), KnotPointRadius);
+            //DrawCurveByT();
+
+            // Gizmos.color = Color.blue;
+            // Gizmos.DrawRay(Vector3.zero, _tangent);
+            // Gizmos.color = Color.green;
+            // Gizmos.DrawRay(Vector3.zero, _normal);
+
+
+            //Gizmos.DrawSphere(_orientedPoint, KnotPointRadius / 2);
+
+            //DrawCrossProduct();
+            
+            for (int j = 0; j < GetComponent<TrackCreator>().TrackConstructor.Verts.Count; j++)
+            {
+                Gizmos.color = Color.red;
+
+                // _orientedPoint = SplineRoadUtilities.GetCurveOrientedPoint(
+                //     properties.SplineContainer,
+                //     properties.SplineContainer.Spline.GetCurve(i),
+                //     properties.MeshDataContainer.Vertices[j].Point,
+                //     tLocal,
+                //     i,
+                //     properties.RoadWidth
+                // );
+
+                Gizmos.DrawSphere(GetComponent<TrackCreator>().TrackConstructor.Verts[j], KnotPointRadius / 5);
+            }
+        }
+
+        private void DrawCrossProduct()
+        {
+            Vector3 tangent = Vector3.forward;
+            Vector3 arbitraryVector = new Vector3(1, 1, 0);
+            Vector3 normalVector = Vector3.Cross(tangent, arbitraryVector);
+
+            normalVector.Normalize();
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(Vector3.zero, tangent);
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawRay(Vector3.zero, arbitraryVector);
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(Vector3.zero, normalVector * 5);
+        }
+
+        private void DrawCurveByT()
+        {
+            //TODO: draw centered spher and tangent, normal, bi-normal
+
+            var properties = GetComponent<TrackProperties>();
+
+            for (int i = 0; i < properties.SplineContainer.Spline.Count - 1; i++)
+            {
+                var curve = properties.SplineContainer.Spline.GetCurve(i);
+
+                for (int k = 0; k < Resolution; k++)
+                {
+                    var tLocal = k / (Resolution - 1f);
+
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(CurveUtility.EvaluatePosition(curve, tLocal), KnotPointRadius);
+
+                    for (int j = 0; j < GetComponent<TrackCreator>().TrackConstructor.Verts.Count; j++)
+                    {
+                        Gizmos.color = Color.red;
+
+                        // _orientedPoint = SplineRoadUtilities.GetCurveOrientedPoint(
+                        //     properties.SplineContainer,
+                        //     properties.SplineContainer.Spline.GetCurve(i),
+                        //     properties.MeshDataContainer.Vertices[j].Point,
+                        //     tLocal,
+                        //     i,
+                        //     properties.RoadWidth
+                        // );
+
+                        Gizmos.DrawSphere(GetComponent<TrackCreator>().TrackConstructor.Verts[j], KnotPointRadius / 5);
+                    }
+                }
+            }
         }
 
         private void DrawControlPoints()
@@ -51,7 +147,7 @@ namespace ptl.bezier
                     Gizmos.DrawLine(point, tangent);
                 }
             }
-            
+
             Gizmos.color = Color.green;
 
             Vector3 t1 = (_splineContainer.Spline.GetCurve(0).P1 - _splineContainer.Spline.GetCurve(0).P0);
