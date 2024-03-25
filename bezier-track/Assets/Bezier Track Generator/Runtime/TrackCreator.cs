@@ -17,7 +17,7 @@ namespace ptl.bezier
 
         public void CreateTrack(TrackProperties properties)
         {
-            switch (properties.TrackType)
+            switch (properties.Mode)
             {
                 case TrackMode.Single:
                     CreateSingleTrack(properties);
@@ -132,15 +132,16 @@ namespace ptl.bezier
 
                 _trackConstructor.ConstructBezierCurveVertices(properties, mesh, i);
                 _trackConstructor.ConstructBezierCurveNormals(properties, mesh);
-                //TODO: add UVs
+                _trackConstructor.ConstructBezierUVs(properties, mesh);
                 _trackConstructor.ConstructTriangles(properties, mesh, properties.SplinePointsCount - 1);
+                
                 _trackConstructor.ClearMeshData();
             }
         }
 
         public void ClearTrack(TrackProperties properties)
         {
-            switch (properties.TrackType)
+            switch (properties.Mode)
             {
                 case TrackMode.Single:
                     _trackConstructor.ClearMeshData();
@@ -165,7 +166,7 @@ namespace ptl.bezier
         /// </summary>
         public void DeleteTrackCompletely(TrackProperties properties)
         {
-            switch (properties.TrackType)
+            switch (properties.Mode)
             {
                 case TrackMode.Single:
                     DeleteMultiple();
@@ -188,7 +189,7 @@ namespace ptl.bezier
 
         public void DeleteOnValidate(TrackProperties properties)
         {
-            switch (properties.TrackType)
+            switch (properties.Mode)
             {
                 case TrackMode.Single:
                     DeleteMultipleTypeFromValidate();
@@ -230,7 +231,7 @@ namespace ptl.bezier
                 EditorApplication.delayCall += () => { DestroyImmediate(_track); };
             }
         }
-        
+
         private void DeleteMultiple()
         {
             foreach (var mesh in _meshes)

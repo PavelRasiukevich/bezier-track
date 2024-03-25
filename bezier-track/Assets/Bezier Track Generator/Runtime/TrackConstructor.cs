@@ -170,13 +170,47 @@ namespace ptl.bezier
             mesh.SetNormals(_normals);
         }
 
+        public void ConstructBezierUVs(TrackProperties properties, Mesh mesh)
+        {
+            LengthTable table = null;
+            table = new LengthTable(properties.SplineContainer);
+
+            _lenght = properties.SplineContainer.CalculateLength(0);
+
+            float tiling = properties.Material.mainTexture != null
+                ? (float)properties.Material.mainTexture.width / properties.Material.mainTexture.height
+                : 1f;
+
+            float uSpan = properties.MeshDataContainer.ShapeData.USpan();
+
+            tiling *= SplineRoadUtilities.GetArcLength(properties) / uSpan;
+            tiling = Mathf.Max(1, Mathf.Round(tiling));
+
+
+            for (int i = 0; i < properties.SplinePointsCount; i++)
+            {
+                var t = i / (properties.SplinePointsCount - 1f);
+
+                float tUv = t;
+                tUv = table.ToPercentage(tUv);
+                float uv0V = tUv * _lenght / uSpan;
+
+                for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
+                {
+                    _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V));
+                }
+            }
+
+            mesh.SetUVs(0, _uvs);
+        }
+
         public void ConstructBezierCurveTriangles(TrackProperties properties, Mesh mesh)
         {
             for (int i = 0; i < properties.SplinePointsCount - 1; i++)
             {
                 int rootIndex = i * properties.MeshDataContainer.VertexCount; // 0
                 int rootIndexNext = (i + 1) * properties.MeshDataContainer.VertexCount; // 16
-                
+
                 for (int j = 0; j < properties.MeshDataContainer.LineCount; j += 2)
                 {
                     int lineIndexA = properties.MeshDataContainer.Lines[j]; // 15
@@ -303,6 +337,11 @@ namespace ptl.bezier
             _triangles.Clear();
             _vertices.Clear();
             _normals.Clear();
+        }
+
+        public void ClearTriangles()
+        {
+            _triangles.Clear();
         }
     }
 }

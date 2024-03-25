@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Splines;
 
 namespace ptl.bezier
@@ -7,7 +8,7 @@ namespace ptl.bezier
     public class TrackProperties : MonoBehaviour
     {
         public event Action ValueChanged = delegate { };
-       
+
         [Header("Data")] [SerializeField] private SplineContainer _splineContainer;
         [SerializeField] private ScriptableMeshDataContainer _meshDataContainer;
 
@@ -20,8 +21,8 @@ namespace ptl.bezier
 
         //TODO: change range value to bigger values (.5f - 5f)
         [Range(1f, 16f)] [SerializeField] private float _roadWidth;
-        [SerializeField] private TrackMode _trackType;
-        
+        [SerializeField] private TrackMode _mode;
+
         public float Tiling => _tiling;
         public Material Material => _meshDataContainer.Material;
         public SplineContainer SplineContainer => _splineContainer;
@@ -29,7 +30,7 @@ namespace ptl.bezier
         public int SplinePointsCount => _splinePointsCount;
         public int SegmentCount => _segmentCount;
         public float RoadWidth => _roadWidth;
-        public TrackMode TrackType => _trackType;
+        public TrackMode Mode => _mode;
 
         private int _currentSplinePointsCount;
 
