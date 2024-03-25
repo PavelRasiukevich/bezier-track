@@ -20,7 +20,7 @@ namespace ptl.bezier
 
         //TODO: change range value to bigger values (.5f - 5f)
         [Range(1f, 16f)] [SerializeField] private float _roadWidth;
-        [SerializeField] private TrackType _trackType;
+        [SerializeField] private TrackMode _trackType;
         
         public float Tiling => _tiling;
         public Material Material => _meshDataContainer.Material;
@@ -29,7 +29,7 @@ namespace ptl.bezier
         public int SplinePointsCount => _splinePointsCount;
         public int SegmentCount => _segmentCount;
         public float RoadWidth => _roadWidth;
-        public TrackType TrackType => _trackType;
+        public TrackMode TrackType => _trackType;
 
         private int _currentSplinePointsCount;
 

@@ -19,16 +19,16 @@ namespace ptl.bezier
         {
             switch (properties.TrackType)
             {
-                case TrackType.Single:
+                case TrackMode.Single:
                     CreateSingleTrack(properties);
                     break;
-                case TrackType.Multiple:
+                case TrackMode.Multiple:
                     CreateMultipleTrack(properties);
                     break;
-                case TrackType.KnotBased:
+                case TrackMode.KnotBased:
                     CreateTrackBasedOnKnots(properties);
                     break;
-                case TrackType.None:
+                case TrackMode.None:
                 default:
                     throw new NotImplementedException();
                     break;
@@ -142,17 +142,17 @@ namespace ptl.bezier
         {
             switch (properties.TrackType)
             {
-                case TrackType.Single:
+                case TrackMode.Single:
                     _trackConstructor.ClearMeshData();
                     if (_mesh) _mesh.Clear();
                     break;
-                case TrackType.Multiple:
+                case TrackMode.Multiple:
                     Debug.Log("Not Implemented YET");
                     break;
-                case TrackType.KnotBased:
+                case TrackMode.KnotBased:
                     Debug.Log("Not Implemented YET");
                     break;
-                case TrackType.None:
+                case TrackMode.None:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -167,19 +167,19 @@ namespace ptl.bezier
         {
             switch (properties.TrackType)
             {
-                case TrackType.Single:
+                case TrackMode.Single:
                     DeleteMultiple();
                     DeleteSingle();
                     break;
-                case TrackType.Multiple:
+                case TrackMode.Multiple:
                     DeleteSingle();
                     DeleteMultiple();
                     break;
-                case TrackType.KnotBased:
+                case TrackMode.KnotBased:
                     DeleteSingle();
                     DeleteMultiple();
                     break;
-                case TrackType.None:
+                case TrackMode.None:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -190,19 +190,19 @@ namespace ptl.bezier
         {
             switch (properties.TrackType)
             {
-                case TrackType.Single:
+                case TrackMode.Single:
                     DeleteMultipleTypeFromValidate();
                     DeleteSingleFromValidate();
                     break;
-                case TrackType.Multiple:
+                case TrackMode.Multiple:
                     DeleteSingleFromValidate();
                     DeleteMultipleTypeFromValidate();
                     break;
-                case TrackType.KnotBased:
+                case TrackMode.KnotBased:
                     DeleteSingleFromValidate();
                     DeleteMultipleTypeFromValidate();
                     break;
-                case TrackType.None:
+                case TrackMode.None:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -219,9 +219,18 @@ namespace ptl.bezier
         private void DeleteSingleFromValidate()
         {
             _trackConstructor.ClearMeshData();
-            if (_mesh) _mesh.Clear();
-        }
+            if (_mesh)
+            {
+                _mesh.Clear();
+                EditorApplication.delayCall += () => { DestroyImmediate(_mesh); };
+            }
 
+            if (_track)
+            {
+                EditorApplication.delayCall += () => { DestroyImmediate(_track); };
+            }
+        }
+        
         private void DeleteMultiple()
         {
             foreach (var mesh in _meshes)
