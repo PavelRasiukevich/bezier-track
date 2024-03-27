@@ -5,7 +5,7 @@
   "description": "Procedural mesh generator based on unity spline tool.",
   "unity": "2022.1",
   "dependencies": {
-    "com.unity.splines": "2.2.1"
+    "com.unity.splines": "2.5.2"
   },
   "keywords": [],
   "author": {
