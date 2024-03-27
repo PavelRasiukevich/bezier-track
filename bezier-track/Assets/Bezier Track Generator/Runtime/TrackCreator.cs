@@ -235,6 +235,9 @@ namespace ptl.bezier
 
         private void DeleteMultiple()
         {
+            if (_meshes == null) return;
+            if (_tracks == null) return;
+
             foreach (var mesh in _meshes)
             {
                 DestroyImmediate(mesh);
