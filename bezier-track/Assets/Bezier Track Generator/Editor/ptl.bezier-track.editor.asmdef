@@ -19,8 +19,8 @@
     "versionDefines": [
         {
             "name": "com.unity.splines",
-            "expression": "",
-            "define": "2.5.2"
+            "expression": "2.5.2",
+            "define": "test"
         }
     ],
     "noEngineReferences": false
