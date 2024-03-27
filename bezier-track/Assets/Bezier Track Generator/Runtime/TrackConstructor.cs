@@ -197,7 +197,8 @@ namespace ptl.bezier
 
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
-                    _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x, uv0V));
+                    _uvs.Add(new Vector2(properties.MeshDataContainer.Vertices[j].UVs.x,
+                        uv0V / properties.SplineContainer.Spline.Count));
                 }
             }
 
@@ -342,6 +343,11 @@ namespace ptl.bezier
         public void ClearTriangles()
         {
             _triangles.Clear();
+        }
+
+        public void ClearUVs()
+        {
+            _uvs.Clear();
         }
     }
 }

@@ -120,6 +120,7 @@ namespace ptl.bezier
 
                 track.AddComponent<MeshFilter>();
                 track.AddComponent<MeshRenderer>();
+                track.AddComponent<TrackSegment>();
 
                 track.transform.parent = properties.transform;
                 track.transform.position = properties.transform.position;
@@ -134,7 +135,7 @@ namespace ptl.bezier
                 _trackConstructor.ConstructBezierCurveNormals(properties, mesh);
                 _trackConstructor.ConstructBezierUVs(properties, mesh);
                 _trackConstructor.ConstructTriangles(properties, mesh, properties.SplinePointsCount - 1);
-                
+
                 _trackConstructor.ClearMeshData();
             }
         }
