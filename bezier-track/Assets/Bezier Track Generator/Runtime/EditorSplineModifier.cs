@@ -44,10 +44,18 @@ namespace ptl.bezier.editor
 
         private void PropertiesValueChangeHandler()
         {
-            _trackCreator.DeleteOnValidate(_trackProperties);
+            if (_trackProperties.Mode == TrackMode.Single && _trackProperties.LastMode == TrackMode.Single)
+            {
+                Clear();
+            }
+            else
+            {
+                _trackCreator.DeleteOnValidate(_trackProperties);
+            }
+
             Create();
         }
-        
+
         private void SplineModifiedHandler(Spline spline)
         {
             if (_splineContainer.Splines.Contains(spline))
