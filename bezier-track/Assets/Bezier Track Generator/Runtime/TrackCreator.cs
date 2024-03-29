@@ -90,7 +90,7 @@ namespace ptl.bezier
 
                 _trackConstructor ??= new TrackConstructor();
 
-                for (int j = 0; j < properties.SegmentCount; j++)
+                for (int j = 0; j < properties.SegmentDefaultResolution; j++)
                 {
                     _trackConstructor.ConstructVertices(properties, mesh, j + i);
                     _trackConstructor.ConstructNormals(properties, mesh, j + i);
