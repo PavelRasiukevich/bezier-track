@@ -45,15 +45,8 @@ namespace ptl.bezier.editor
         private void PropertiesValueChangeHandler()
         {
             if (!_trackProperties.AutoUpdate) return;
-            
-            if (_trackProperties.Mode == TrackMode.Single && _trackProperties.LastMode == TrackMode.Single)
-            {
-                Clear();
-            }
-            else
-            {
-                _trackCreator.DeleteOnValidate(_trackProperties);
-            }
+
+            ValidateDeleteMethod();
 
             Create();
         }
@@ -83,7 +76,25 @@ namespace ptl.bezier.editor
         }
 
         [ContextMenu("Create Track")]
-        private void Create() => _trackCreator.CreateTrack(_trackProperties);
+        private void Create()
+        {
+            ValidateDeleteMethod();
+
+
+            _trackCreator.CreateTrack(_trackProperties);
+        }
+
+        private void ValidateDeleteMethod()
+        {
+            if (_trackProperties.Mode == TrackMode.Single && _trackProperties.LastMode == TrackMode.Single)
+            {
+                Clear();
+            }
+            else
+            {
+                _trackCreator.DeleteOnValidate(_trackProperties);
+            }
+        }
 
         [ContextMenu("Clear Track Data")]
         private void Clear() => _trackCreator.ClearTrack(_trackProperties);
