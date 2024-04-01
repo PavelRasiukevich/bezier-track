@@ -49,7 +49,7 @@ namespace ptl.bezier
 
                 _track.AddComponent<MeshFilter>();
                 _track.AddComponent<MeshRenderer>();
-                _track.AddComponent<MeshCollider>();
+                _track.AddComponent<MeshCollider>().sharedMesh = _mesh;
 
                 _track.transform.parent = properties.transform;
                 _track.transform.position = properties.transform.position;
@@ -122,7 +122,7 @@ namespace ptl.bezier
 
                 track.AddComponent<MeshFilter>();
                 track.AddComponent<MeshRenderer>();
-                track.AddComponent<MeshCollider>();
+                track.AddComponent<MeshCollider>().sharedMesh = mesh;
 
                 //track.AddComponent<KnotSegment>();
                 //s.SetResolution(KnotSegmentResolutionManager.GetValue(s.GetInstanceID()));
