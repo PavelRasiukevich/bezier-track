@@ -105,6 +105,9 @@ namespace ptl.bezier
 
         private void CreateTrackBasedOnKnots(TrackProperties properties)
         {
+            _meshes = new List<Mesh>();
+            _tracks = new List<GameObject>();
+
             for (int i = 0; i < properties.SplineContainer.Spline.Count - 1; i++)
             {
                 var mesh = new Mesh
@@ -120,7 +123,7 @@ namespace ptl.bezier
                 track.AddComponent<MeshFilter>();
                 track.AddComponent<MeshRenderer>();
                 track.AddComponent<MeshCollider>();
-                
+
                 //track.AddComponent<KnotSegment>();
                 //s.SetResolution(KnotSegmentResolutionManager.GetValue(s.GetInstanceID()));
 
@@ -248,7 +251,7 @@ namespace ptl.bezier
         {
             if (_meshes == null) return;
             if (_tracks == null) return;
-            
+
             foreach (var mesh in _meshes)
             {
                 EditorApplication.delayCall += () => { DestroyImmediate(mesh); };
