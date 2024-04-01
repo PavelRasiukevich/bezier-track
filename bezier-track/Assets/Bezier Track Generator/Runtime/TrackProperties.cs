@@ -22,8 +22,15 @@ namespace ptl.bezier
         private float _tiling = 2f;
 
         //TODO: change range value to bigger values (.5f - 5f)
-        [Range(1f, 16f)] [SerializeField] private float _roadWidth;
+        [Range(1f, 16f)] [SerializeField] private float _roadWidth = 1f;
         [SerializeField] private TrackMode _mode;
+
+        /// <summary>
+        /// Test feature
+        /// Changing to false leads to errors in some cases
+        /// Do no change the value
+        /// </summary>
+        public bool AutoUpdate { get; private set; } = true;
 
         public float Tiling => _tiling;
         public Material Material => _meshDataContainer.Material;

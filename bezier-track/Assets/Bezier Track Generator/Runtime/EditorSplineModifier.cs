@@ -44,6 +44,8 @@ namespace ptl.bezier.editor
 
         private void PropertiesValueChangeHandler()
         {
+            if (!_trackProperties.AutoUpdate) return;
+            
             if (_trackProperties.Mode == TrackMode.Single && _trackProperties.LastMode == TrackMode.Single)
             {
                 Clear();
@@ -58,6 +60,8 @@ namespace ptl.bezier.editor
 
         private void SplineModifiedHandler(Spline spline)
         {
+            if (!_trackProperties.AutoUpdate) return;
+
             if (_splineContainer.Splines.Contains(spline))
             {
                 Delete();

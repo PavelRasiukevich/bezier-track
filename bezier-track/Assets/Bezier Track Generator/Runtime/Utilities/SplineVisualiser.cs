@@ -97,10 +97,10 @@ namespace ptl.bezier
 
                 for (int j = 0; j < _properties.MeshDataContainer.VertexCount; j++)
                 {
-                    var orientedPoint = SplineRoadUtilities.GetOrientedPointWorldSpace(
+                    var orientedPoint = SplineRoadUtilities.GetOrientedPointLocalSpace(
                         t,
                         _properties.SplineContainer,
-                        _properties.MeshDataContainer.Vertices[j].Point);
+                        _properties.MeshDataContainer.Vertices[j].Point ,1f);
 
                     Gizmos.DrawSphere(orientedPoint, _vertexVisualPointRadius);
                 }

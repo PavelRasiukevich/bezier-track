@@ -35,7 +35,7 @@ namespace ptl.bezier
             return pointLocation;
         }
 
-        public static Vector3 GetCurveOrientedPoint(SplineContainer container, BezierCurve curve, Vector3 point, float t, int index, float width= 1f)
+        public static Vector3 GetCurveOrientedPoint(SplineContainer container, BezierCurve curve, Vector3 point, float t, int index, float width = 1f)
         {
             var rot = Quaternion.LookRotation(CurveUtility.EvaluateTangent(curve, t), container.Spline.GetCurveUpVector(index, t));
             var pointRotation = rot * point * width;
@@ -49,7 +49,7 @@ namespace ptl.bezier
         {
             var spline = container.Spline;
             var curve = spline.GetCurve(index);
-            
+
             var position = CurveUtility.EvaluatePosition(curve, t);
             var tangent = CurveUtility.EvaluateTangent(curve, t);
             var normal = spline.GetCurveUpVector(index, t);
@@ -60,11 +60,11 @@ namespace ptl.bezier
 
             return pointLocation;
         }
-        
+
         public static Vector3 GetCurveOrientedPointLocalSpace(SplineContainer container, BezierCurve curve, Vector3 point, float t, int index, float width = 1f)
         {
             var spline = container.Spline;
-            
+
             var position = CurveUtility.EvaluatePosition(curve, t);
             var tangent = CurveUtility.EvaluateTangent(curve, t);
             var normal = spline.GetCurveUpVector(index, t);
