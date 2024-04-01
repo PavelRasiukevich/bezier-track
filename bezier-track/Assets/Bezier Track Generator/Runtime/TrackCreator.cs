@@ -246,6 +246,9 @@ namespace ptl.bezier
 
         private void DeleteMultipleTypeFromValidate()
         {
+            if (_meshes == null) return;
+            if (_tracks == null) return;
+            
             foreach (var mesh in _meshes)
             {
                 EditorApplication.delayCall += () => { DestroyImmediate(mesh); };
