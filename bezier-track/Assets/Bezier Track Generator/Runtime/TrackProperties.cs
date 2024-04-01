@@ -15,8 +15,7 @@ namespace ptl.bezier
         [Header("Settings")] [Range(8, 1024)] [SerializeField]
         private int _splinePointsCount = 8;
 
-        [HideInInspector] [Range(8, 32)] [SerializeField]
-        private int _segmentDefaultResolution;
+        [Range(8, 32)] [SerializeField] private int _defaultSegmentResolution;
 
         [HideInInspector] [Range(0.1f, 256f)] [SerializeField]
         private float _tiling = 2f;
@@ -31,7 +30,7 @@ namespace ptl.bezier
         public ScriptableMeshDataContainer MeshDataContainer => _meshDataContainer;
         public int SplinePointsCount => _splinePointsCount;
 
-        public int SegmentDefaultResolution => _segmentDefaultResolution;
+        public int DefaultSegmentResolution => _defaultSegmentResolution;
         public float RoadWidth => _roadWidth;
         public TrackMode Mode => _mode;
         public TrackMode LastMode { get; set; }

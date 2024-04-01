@@ -129,9 +129,9 @@ namespace ptl.bezier
 
         public void ConstructBezierCurveVertices(TrackProperties properties, Mesh mesh, int curveIndex)
         {
-            for (int i = 0; i < properties.SplinePointsCount; i++)
+            for (int i = 0; i < properties.DefaultSegmentResolution; i++)
             {
-                var t = i / (properties.SplinePointsCount - 1f);
+                var t = i / (properties.DefaultSegmentResolution - 1f);
 
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
@@ -152,9 +152,9 @@ namespace ptl.bezier
 
         public void ConstructBezierCurveNormals(TrackProperties properties, Mesh mesh)
         {
-            for (int i = 0; i < properties.SplinePointsCount; i++)
+            for (int i = 0; i < properties.DefaultSegmentResolution; i++)
             {
-                var t = i / (properties.SplinePointsCount - 1f);
+                var t = i / (properties.DefaultSegmentResolution - 1f);
 
                 for (int j = 0; j < properties.MeshDataContainer.VertexCount; j++)
                 {
@@ -187,9 +187,9 @@ namespace ptl.bezier
             tiling = Mathf.Max(1, Mathf.Round(tiling));
 
 
-            for (int i = 0; i < properties.SplinePointsCount; i++)
+            for (int i = 0; i < properties.DefaultSegmentResolution; i++)
             {
-                var t = i / (properties.SplinePointsCount - 1f);
+                var t = i / (properties.DefaultSegmentResolution - 1f);
 
                 float tUv = t;
                 tUv = table.ToPercentage(tUv);
@@ -205,9 +205,16 @@ namespace ptl.bezier
             mesh.SetUVs(0, _uvs);
         }
 
+        /// <summary>
+        /// Use ConstructTriangles Instead
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <param name="mesh"></param>
+        /// 
+        [Obsolete]
         public void ConstructBezierCurveTriangles(TrackProperties properties, Mesh mesh)
         {
-            for (int i = 0; i < properties.SplinePointsCount - 1; i++)
+            for (int i = 0; i < properties.DefaultSegmentResolution - 1; i++)
             {
                 int rootIndex = i * properties.MeshDataContainer.VertexCount; // 0
                 int rootIndexNext = (i + 1) * properties.MeshDataContainer.VertexCount; // 16

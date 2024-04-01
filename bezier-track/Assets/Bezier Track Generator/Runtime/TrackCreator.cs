@@ -49,6 +49,7 @@ namespace ptl.bezier
 
                 _track.AddComponent<MeshFilter>();
                 _track.AddComponent<MeshRenderer>();
+                _track.AddComponent<MeshCollider>();
 
                 _track.transform.parent = properties.transform;
                 _track.transform.position = properties.transform.position;
@@ -90,7 +91,7 @@ namespace ptl.bezier
 
                 _trackConstructor ??= new TrackConstructor();
 
-                for (int j = 0; j < properties.SegmentDefaultResolution; j++)
+                for (int j = 0; j < properties.DefaultSegmentResolution; j++)
                 {
                     _trackConstructor.ConstructVertices(properties, mesh, j + i);
                     _trackConstructor.ConstructNormals(properties, mesh, j + i);
@@ -118,6 +119,9 @@ namespace ptl.bezier
 
                 track.AddComponent<MeshFilter>();
                 track.AddComponent<MeshRenderer>();
+                track.AddComponent<MeshCollider>();
+                //track.AddComponent<KnotSegment>();
+                //s.SetResolution(KnotSegmentResolutionManager.GetValue(s.GetInstanceID()));
 
                 track.transform.parent = properties.transform;
                 track.transform.position = properties.transform.position;
@@ -131,7 +135,7 @@ namespace ptl.bezier
                 _trackConstructor.ConstructBezierCurveVertices(properties, mesh, i);
                 _trackConstructor.ConstructBezierCurveNormals(properties, mesh);
                 _trackConstructor.ConstructBezierUVs(properties, mesh);
-                _trackConstructor.ConstructTriangles(properties, mesh, properties.SplinePointsCount - 1);
+                _trackConstructor.ConstructTriangles(properties, mesh, properties.DefaultSegmentResolution - 1);
 
                 _trackConstructor.ClearMeshData();
             }
