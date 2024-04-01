@@ -136,7 +136,7 @@ namespace ptl.bezier
                 _trackConstructor.ConstructBezierCurveVertices(properties, mesh, i);
                 _trackConstructor.ConstructBezierCurveNormals(properties, mesh);
                 _trackConstructor.ConstructBezierUVs(properties, mesh);
-                _trackConstructor.ConstructTriangles(properties, mesh, properties.DefaultSegmentResolution - 1);
+                _trackConstructor.ConstructTriangles(properties, mesh, properties.SplinePointsCount - 1);
 
                 _trackConstructor.ClearMeshData();
             }

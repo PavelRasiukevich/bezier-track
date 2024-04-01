@@ -15,7 +15,8 @@ namespace ptl.bezier
         [Header("Settings")] [Range(8, 1024)] [SerializeField]
         private int _splinePointsCount = 8;
 
-        [Range(8, 32)] [SerializeField] private int _defaultSegmentResolution;
+        [HideInInspector] [Range(8, 32)] [SerializeField]
+        private int _defaultSegmentResolution;
 
         [HideInInspector] [Range(0.1f, 256f)] [SerializeField]
         private float _tiling = 2f;
