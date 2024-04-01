@@ -120,6 +120,7 @@ namespace ptl.bezier
                 track.AddComponent<MeshFilter>();
                 track.AddComponent<MeshRenderer>();
                 track.AddComponent<MeshCollider>();
+                
                 //track.AddComponent<KnotSegment>();
                 //s.SetResolution(KnotSegmentResolutionManager.GetValue(s.GetInstanceID()));
 
