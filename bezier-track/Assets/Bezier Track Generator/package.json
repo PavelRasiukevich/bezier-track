@@ -1,6 +1,6 @@
 {
   "name": "com.ptl.bezier-track",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "displayName": "Bezier Track Generator",
   "description": "Procedural mesh generator based on unity spline tool.",
   "unity": "2022.1",
