@@ -44,10 +44,11 @@ namespace ptl.bezier.editor
 
         private void PropertiesValueChangeHandler()
         {
+            Debug.Log("PropertiesValueChangeHandler");
+
             if (!_trackProperties.AutoUpdate) return;
 
             ValidateDeleteMethod();
-
             Create();
         }
 
@@ -78,9 +79,6 @@ namespace ptl.bezier.editor
         [ContextMenu("Create Track")]
         private void Create()
         {
-            ValidateDeleteMethod();
-
-
             _trackCreator.CreateTrack(_trackProperties);
         }
 

@@ -10,10 +10,12 @@ namespace ptl.bezier
         [HideInInspector] [SerializeField] private Mesh _mesh;
         [HideInInspector] [SerializeField] private GameObject _track;
         [SerializeField] private List<Mesh> _meshes;
-        [SerializeField] private List<GameObject> _tracks;
+        [SerializeField] private List<KnotSegment> _tracks;
         [SerializeField] private TrackConstructor _trackConstructor;
 
         public TrackConstructor TrackConstructor => _trackConstructor;
+
+        private SegmentResolutionData _segmentResolutionData;
 
         public void CreateTrack(TrackProperties properties)
         {
@@ -65,7 +67,7 @@ namespace ptl.bezier
 
         private void CreateMultipleTrack(TrackProperties properties)
         {
-            var segments = properties.SplinePointsCount - 1;
+            /*var segments = properties.SplinePointsCount - 1;
 
             for (int i = 0; i < segments; i++)
             {
@@ -100,13 +102,13 @@ namespace ptl.bezier
 
                 _trackConstructor.ConstructTriangles(properties, mesh, 1);
                 _trackConstructor.ClearMeshData();
-            }
+            }*/
         }
 
         private void CreateTrackBasedOnKnots(TrackProperties properties)
         {
             _meshes = new List<Mesh>();
-            _tracks = new List<GameObject>();
+            _tracks = new List<KnotSegment>();
 
             for (int i = 0; i < properties.SplineContainer.Spline.Count - 1; i++)
             {
@@ -117,15 +119,13 @@ namespace ptl.bezier
 
                 var track = new GameObject($"Knot Segment_{i}");
 
-                _meshes.Add(mesh);
-                _tracks.Add(track);
-
                 track.AddComponent<MeshFilter>();
                 track.AddComponent<MeshRenderer>();
                 track.AddComponent<MeshCollider>().sharedMesh = mesh;
+                track.AddComponent<KnotSegment>();
 
-                //track.AddComponent<KnotSegment>();
-                //s.SetResolution(KnotSegmentResolutionManager.GetValue(s.GetInstanceID()));
+                _meshes.Add(mesh);
+                _tracks.Add(track.GetComponent<KnotSegment>());
 
                 track.transform.parent = properties.transform;
                 track.transform.position = properties.transform.position;
@@ -143,8 +143,10 @@ namespace ptl.bezier
 
                 _trackConstructor.ClearMeshData();
             }
-        }
 
+            LoadSegmentData();
+        }
+        
         public void ClearTrack(TrackProperties properties)
         {
             switch (properties.Mode)
@@ -206,13 +208,12 @@ namespace ptl.bezier
         {
             DestroyImmediate(_mesh);
             DestroyImmediate(_track);
-            _trackConstructor = null;
+
+            _trackConstructor.ClearMeshData();
         }
 
         private void DeleteSingleFromValidate()
         {
-            _trackConstructor.ClearMeshData();
-
             if (_mesh)
             {
                 _mesh.Clear();
@@ -223,12 +224,16 @@ namespace ptl.bezier
             {
                 EditorApplication.delayCall += () => { DestroyImmediate(_track); };
             }
+
+            _trackConstructor.ClearMeshData();
         }
 
         private void DeleteMultiple()
         {
-            if (_meshes == null) return;
-            if (_tracks == null) return;
+            SaveSegmentData();
+
+            if (_meshes == null || _meshes.Count == 0) return;
+            if (_tracks == null || _tracks.Count == 0) return;
 
             foreach (var mesh in _meshes)
             {
@@ -237,33 +242,69 @@ namespace ptl.bezier
 
             _meshes.Clear();
 
-            foreach (var track in _tracks)
+            foreach (var knotSegment in _tracks)
             {
-                DestroyImmediate(track);
+                DestroyImmediate(knotSegment.gameObject);
             }
 
             _tracks.Clear();
 
-            _trackConstructor = null;
+            _trackConstructor.ClearMeshData();
         }
 
         private void DeleteMultipleTypeFromValidate()
         {
-            if (_meshes == null) return;
-            if (_tracks == null) return;
+            SaveSegmentData();
+
+            if (_meshes == null || _meshes.Count == 0) return;
+            if (_tracks == null || _tracks.Count == 0) return;
 
             foreach (var mesh in _meshes)
             {
                 EditorApplication.delayCall += () => { DestroyImmediate(mesh); };
             }
 
-            foreach (var go in _tracks)
+            foreach (var knotSegment in _tracks)
             {
-                EditorApplication.delayCall += () => { DestroyImmediate(go); };
+                EditorApplication.delayCall += () => { DestroyImmediate(knotSegment.gameObject); };
             }
 
             _meshes.Clear();
             _tracks.Clear();
+
+            _trackConstructor.ClearMeshData();
+        }
+
+        private void LoadSegmentData()
+        {
+            _segmentResolutionData = ApplicationPrefs.GetObject<SegmentResolutionData>(Constants.SEGMENT_DATA);
+
+            if (_segmentResolutionData == null || _segmentResolutionData.Values.Count == 0) return;
+
+            for (int i = 0; i < _segmentResolutionData.Values.Count; i++)
+            {
+                _tracks[i].Resolution = _segmentResolutionData.Values[i];
+            }
+        }
+        
+        private void SaveSegmentData()
+        {
+            if (_tracks == null) return;
+
+            _segmentResolutionData.Values.Clear();
+            Debug.Log(_tracks.Count);
+
+            for (int i = 0; i < _tracks.Count; i++)
+            {
+                if (_tracks is { Count: > 0 })
+                {
+                    _segmentResolutionData.Values.Add(_tracks[i].Resolution);
+                }
+            }
+
+            Debug.Log(_segmentResolutionData.Values.Count);
+
+            ApplicationPrefs.SetObject(Constants.SEGMENT_DATA, _segmentResolutionData);
         }
     }
 }

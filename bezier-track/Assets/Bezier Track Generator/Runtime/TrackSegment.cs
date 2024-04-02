@@ -6,7 +6,13 @@ namespace ptl.bezier
     public class KnotSegment : MonoBehaviour
     {
         [SerializeField] private int _id;
-        [Range(8, 1024)] [SerializeField] private int _resolution;
+        [Range(8, 1024)] [SerializeField] private int _resolution = 8;
+
+        public int Resolution
+        {
+            get => _resolution;
+            set => _resolution = value;
+        }
 
         private void OnValidate()
         {
