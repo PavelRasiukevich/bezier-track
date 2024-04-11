@@ -11,8 +11,9 @@ namespace ptl.bezier.editor
     [ExecuteInEditMode]
     public class EditorSplineModifier : MonoBehaviour
     {
-        private TrackCreator _trackCreator;
-        private TrackProperties _trackProperties;
+        [SerializeField] [HideInInspector] private TrackCreator _trackCreator;
+        [SerializeField] [HideInInspector] private TrackProperties _trackProperties;
+
         private SplineContainer _splineContainer;
 
         private void OnEnable()
@@ -76,12 +77,6 @@ namespace ptl.bezier.editor
             _trackCreator.CreateTrack(_trackProperties);
         }
 
-        [ContextMenu("Create Track")]
-        private void Create()
-        {
-            _trackCreator.CreateTrack(_trackProperties);
-        }
-
         private void ValidateDeleteMethod()
         {
             if (_trackProperties.Mode == TrackMode.Single && _trackProperties.LastMode == TrackMode.Single)
@@ -94,11 +89,15 @@ namespace ptl.bezier.editor
             }
         }
 
+        [ContextMenu("Create Track")]
+        private void Create() => _trackCreator.CreateTrack(_trackProperties);
+
         [ContextMenu("Clear Track Data")]
         private void Clear() => _trackCreator.ClearTrack(_trackProperties);
 
         [ContextMenu("Delete Completely")]
         private void Delete() => _trackCreator.DeleteTrackCompletely(_trackProperties);
     }
+
 #endif
 }

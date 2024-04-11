@@ -5,61 +5,61 @@ namespace ptl.bezier
 {
     public class ApplicationPrefs
     {
-        public static void SetObject(string _key, object _obj)
+        public static void SetObject(string key, object obj)
         {
-            bool _flag;
+            bool flag;
 
 #if UNITY_EDITOR
-            _flag = true;
+            flag = true;
 #else
-        _flag = false;
+        flag = false;
 #endif
-            SaveToFile(_key, JsonUtility.ToJson(_obj, _flag));
+            SaveToFile(key, JsonUtility.ToJson(obj, flag));
         }
 
-        public static T GetObject<T>(string _key)
+        public static T GetObject<T>(string key)
         {
-            return JsonUtility.FromJson<T>(ReadFromFile(_key));
+            return JsonUtility.FromJson<T>(ReadFromFile(key));
         }
 
-        public static void SetBool(string _key, bool _value)
+        public static void SetBool(string key, bool value)
         {
-            PlayerPrefs.SetInt(_key, _value ? 1 : 0);
+            PlayerPrefs.SetInt(key, value ? 1 : 0);
         }
 
-        public static bool GetBool(string _key)
+        public static bool GetBool(string key)
         {
-            return PlayerPrefs.GetInt(_key) == 1;
+            return PlayerPrefs.GetInt(key) == 1;
         }
 
-        public static void SetInt(string _key, int _value)
+        public static void SetInt(string key, int value)
         {
-            PlayerPrefs.SetInt(_key, _value);
+            PlayerPrefs.SetInt(key, value);
         }
 
-        public static int GetInt(string _key)
+        public static int GetInt(string key)
         {
-            return PlayerPrefs.GetInt(_key);
+            return PlayerPrefs.GetInt(key);
         }
 
-        public static void SetFloat(string _key, float _value)
+        public static void SetFloat(string key, float value)
         {
-            PlayerPrefs.SetFloat(_key, _value);
+            PlayerPrefs.SetFloat(key, value);
         }
 
-        public static float GetFloat(string _key)
+        public static float GetFloat(string key)
         {
-            return PlayerPrefs.GetFloat(_key);
+            return PlayerPrefs.GetFloat(key);
         }
 
-        public static void SetString(string _key, string _value)
+        public static void SetString(string key, string value)
         {
-            PlayerPrefs.SetString(_key, _value);
+            PlayerPrefs.SetString(key, value);
         }
 
-        public static string GetString(string _key)
+        public static string GetString(string key)
         {
-            return PlayerPrefs.GetString(_key);
+            return PlayerPrefs.GetString(key);
         }
 
         public static void Save()
@@ -72,46 +72,46 @@ namespace ptl.bezier
             PlayerPrefs.DeleteAll();
         }
 
-        public static void DeleleKey(string _key)
+        public static void DeleleKey(string key)
         {
-            PlayerPrefs.DeleteKey(_key);
+            PlayerPrefs.DeleteKey(key);
         }
 
-        public static bool HasKey(string _key)
+        public static bool HasKey(string key)
         {
-            return PlayerPrefs.HasKey(_key);
+            return PlayerPrefs.HasKey(key);
         }
 
-        public static bool HasObject(string _key)
+        public static bool HasObject(string key)
         {
-            return File.Exists(GetFilePath(_key));
+            return File.Exists(GetFilePath(key));
         }
 
-        public static void DeleteObject(string _key)
+        public static void DeleteObject(string key)
         {
-            File.Delete(GetFilePath(_key));
+            File.Delete(GetFilePath(key));
         }
 
-        private static void SaveToFile(string _fileName, string _fileContent)
+        private static void SaveToFile(string fileName, string fileContent)
         {
-            File.WriteAllText(GetFilePath(_fileName), _fileContent);
+            File.WriteAllText(GetFilePath(fileName), fileContent);
         }
 
-        private static string ReadFromFile(string _fileName)
+        private static string ReadFromFile(string fileName)
         {
-            string _content;
+            string content;
 
-            if (File.Exists(GetFilePath(_fileName)))
-                _content = File.ReadAllText(GetFilePath(_fileName));
+            if (File.Exists(GetFilePath(fileName)))
+                content = File.ReadAllText(GetFilePath(fileName));
             else
-                _content = string.Empty;
+                content = string.Empty;
 
-            return _content;
+            return content;
         }
 
-        private static string GetFilePath(string _fileName)
+        private static string GetFilePath(string fileName)
         {
-            return Path.Combine(Application.persistentDataPath, _fileName);
+            return Path.Combine(Application.persistentDataPath, fileName);
         }
     }
 }

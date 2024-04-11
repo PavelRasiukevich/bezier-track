@@ -146,7 +146,7 @@ namespace ptl.bezier
 
             LoadSegmentData();
         }
-        
+
         public void ClearTrack(TrackProperties properties)
         {
             switch (properties.Mode)
@@ -286,13 +286,13 @@ namespace ptl.bezier
                 _tracks[i].Resolution = _segmentResolutionData.Values[i];
             }
         }
-        
+
         private void SaveSegmentData()
         {
             if (_tracks == null) return;
 
             _segmentResolutionData.Values.Clear();
-            Debug.Log(_tracks.Count);
+            //Debug.Log(_tracks.Count);
 
             for (int i = 0; i < _tracks.Count; i++)
             {
@@ -302,7 +302,7 @@ namespace ptl.bezier
                 }
             }
 
-            Debug.Log(_segmentResolutionData.Values.Count);
+            //Debug.Log(_segmentResolutionData.Values.Count);
 
             ApplicationPrefs.SetObject(Constants.SEGMENT_DATA, _segmentResolutionData);
         }
