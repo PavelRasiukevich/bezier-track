@@ -7,13 +7,18 @@ namespace ptl.bezier
 {
     public class TrackProperties : MonoBehaviour
     {
-        public event Action ValueChanged = delegate { };
+        private Action _valueChanged = () => { Debug.Log("Track Properties Empty"); };
+        public event Action ValueChanged
+        {
+            add => _valueChanged += value;
+            remove => _valueChanged -= value;
+        }
 
         [Header("Data")] [SerializeField] private SplineContainer _splineContainer;
+
         [SerializeField] private ScriptableMeshDataContainer _meshDataContainer;
 
-        [Header("Settings")] [Range(8, 1024)] [SerializeField]
-        private int _splinePointsCount = 8;
+        [SerializeField] private int _splinePointsCount = 8;
 
         [HideInInspector] [Range(8, 32)] [SerializeField]
         private int _defaultSegmentResolution;
@@ -21,14 +26,13 @@ namespace ptl.bezier
         [HideInInspector] [Range(0.1f, 256f)] [SerializeField]
         private float _tiling = 2f;
 
-        //TODO: change range value to bigger values (.5f - 5f)
         [Range(1f, 16f)] [SerializeField] private float _roadWidth = 1f;
         [SerializeField] private TrackMode _mode;
 
         /// <summary>
         /// Test feature
         /// Changing to false leads to errors in some cases
-        /// Do no change the value
+        /// Do not change the value
         /// </summary>
         public bool AutoUpdate { get; private set; } = true;
 
@@ -37,7 +41,6 @@ namespace ptl.bezier
         public SplineContainer SplineContainer => _splineContainer;
         public ScriptableMeshDataContainer MeshDataContainer => _meshDataContainer;
         public int SplinePointsCount => _splinePointsCount;
-
         public int DefaultSegmentResolution => _defaultSegmentResolution;
         public float RoadWidth => _roadWidth;
         public TrackMode Mode => _mode;
@@ -47,7 +50,7 @@ namespace ptl.bezier
 
         private void OnValidate()
         {
-            ValueChanged?.Invoke();
+            //_valueChanged?.Invoke();
 
             if (_splineContainer == null)
             {

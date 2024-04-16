@@ -144,7 +144,7 @@ namespace ptl.bezier
                 _trackConstructor.ClearMeshData();
             }
 
-            LoadSegmentData();
+            //LoadSegmentData();
         }
 
         public void ClearTrack(TrackProperties properties)
@@ -230,7 +230,7 @@ namespace ptl.bezier
 
         private void DeleteMultiple()
         {
-            SaveSegmentData();
+            //SaveSegmentData();
 
             if (_meshes == null || _meshes.Count == 0) return;
             if (_tracks == null || _tracks.Count == 0) return;
@@ -254,7 +254,7 @@ namespace ptl.bezier
 
         private void DeleteMultipleTypeFromValidate()
         {
-            SaveSegmentData();
+            //SaveSegmentData();
 
             if (_meshes == null || _meshes.Count == 0) return;
             if (_tracks == null || _tracks.Count == 0) return;

@@ -1,4 +1,3 @@
-using ptl.bezier.editor;
 using UnityEngine;
 
 namespace ptl.bezier

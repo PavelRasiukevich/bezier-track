@@ -10,11 +10,27 @@ namespace ptl.bezier.editor
     {
         private TrackCreator _trackCreator;
         private TrackProperties _trackProperty;
+        private TrackPropertiesCustomEditor[] _propertiesCustomEditor;
 
         private void OnEnable()
         {
             _trackCreator = serializedObject.FindProperty("_trackCreator").objectReferenceValue as TrackCreator;
             _trackProperty = serializedObject.FindProperty("_trackProperties").objectReferenceValue as TrackProperties;
+
+            _propertiesCustomEditor = Resources.FindObjectsOfTypeAll<TrackPropertiesCustomEditor>();
+
+            foreach (var item in _propertiesCustomEditor)
+            {
+                item.ValueChanged += ValueChangedHandler;
+            }
+        }
+
+        private void OnDisable()
+        {
+            foreach (var item in _propertiesCustomEditor)
+            {
+                item.ValueChanged -= ValueChangedHandler;
+            }
         }
 
         public override void OnInspectorGUI()
@@ -25,20 +41,25 @@ namespace ptl.bezier.editor
             HandleButtons();
         }
 
+        private void ValueChangedHandler()
+        {
+            Debug.Log("VALUE CHANGED HANDLER EXECUTED");
+        }
+
         private void HandleButtons()
         {
-            var createHasBeenClocked = GUILayout.Button("Create");
-            var clearHasBeenClocked = GUILayout.Button("Clear");
-            var deleteHasBeenClocked = GUILayout.Button("Delete");
+            var createHasBeenClicked = GUILayout.Button("Create");
+            var clearHasBeenClicked = GUILayout.Button("Clear");
+            var deleteHasBeenClicked = GUILayout.Button("Delete");
 
-            if (createHasBeenClocked)
+            if (createHasBeenClicked)
             {
                 _trackCreator.CreateTrack(_trackProperty);
             }
-            else if (clearHasBeenClocked)
+            else if (clearHasBeenClicked)
             {
             }
-            else if (deleteHasBeenClocked)
+            else if (deleteHasBeenClicked)
             {
                 _trackCreator.DeleteTrackCompletely(_trackProperty);
             }

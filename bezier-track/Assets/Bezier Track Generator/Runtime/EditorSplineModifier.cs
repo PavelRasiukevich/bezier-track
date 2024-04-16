@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor.Splines;
@@ -5,7 +6,7 @@ using UnityEditor.Splines;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace ptl.bezier.editor
+namespace ptl.bezier
 {
 #if UNITY_EDITOR
     [ExecuteInEditMode]
@@ -15,9 +16,21 @@ namespace ptl.bezier.editor
         [SerializeField] [HideInInspector] private TrackProperties _trackProperties;
 
         private SplineContainer _splineContainer;
+        private EditorRuntimeMediator _editorRuntimeMediator;
+
+        //private TrackPropertiesCustomEditor _propertiesCustomEditor;
+
+        public float PublicValueExample;
+
+        private void Update()
+        {
+            //Debug.Log(_trackProperties.SplinePointsCount);
+        }
 
         private void OnEnable()
         {
+            Debug.Log("OnEnable Editor Modifier");
+
             if (!Application.isEditor) return;
 
             Init();
